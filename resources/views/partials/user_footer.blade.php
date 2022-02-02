@@ -6,13 +6,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="single-footer-widget tp_widgets">
                         <h4 class="footer_title large_title">Our Mission</h4>
-                        <p>
-                            So seed seed green that winged cattle in. Gathering thing made fly you're no
-                            divided deep moved us lan Gathering thing us land years living.
-                        </p>
-                        <p>
-                            So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved
-                        </p>
+                        {!! $settings->about_us !!}
                     </div>
                 </div>
                 <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
@@ -37,15 +31,22 @@
                                 <span class="fa fa-location-arrow"></span>
                                 Head Office
                             </p>
-                            <p>123, Main Street, Your City</p>
+                            <p>{{$settings->address}}</p>
 
                             <p class="sm-head">
                                 <span class="fa fa-phone"></span>
                                 Phone Number
                             </p>
                             <p>
-                                +123 456 7890 <br>
-                                +123 456 7890
+                                {{$settings->phone1}}
+                                @if($settings->phone2)
+                                <br>
+                                {{$settings->phone2}}
+                                @endif
+                                @if($settings->phone3)
+                                <br>
+                                {{$settings->phone3}}
+                                @endif
                             </p>
 
                             <p class="sm-head">
@@ -53,8 +54,8 @@
                                 Email
                             </p>
                             <p>
-                                free@infoexample.com <br>
-                                www.infoexample.com
+                                {{$settings->email}} <br>
+                                {{$settings->website}}
                             </p>
                         </div>
                     </div>

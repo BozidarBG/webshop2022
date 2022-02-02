@@ -10,7 +10,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{config('app.name')}} @yield('title')</title>
-
+    <link rel="icon" href="{{asset($settings->favicon)}}" type="image/png">
+    <meta name="author" content="{{$settings->author}}">
+    <meta name="description" content="{{$settings->description}}">
+    <meta name="keywords" content="{{$settings->keywords}}">
+    <meta name="generator" content="{{$settings->generator}}">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->

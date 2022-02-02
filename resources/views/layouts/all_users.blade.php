@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{config('app.name')}} @yield('title')</title>
-    <link rel="icon" href="images/Fevicon.png" type="image/png">
+    <link rel="icon" href="{{asset($settings->favicon)}}" type="image/png">
+    <meta name="author" content="{{$settings->author}}">
+    <meta name="description" content="{{$settings->description}}">
+    <meta name="keywords" content="{{$settings->keywords}}">
+    <meta name="generator" content="{{$settings->generator}}">
+
     <link rel="stylesheet" href="{{asset('vendors/bootstrap/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendors/fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendors/themify-icons/themify-icons.css')}}">

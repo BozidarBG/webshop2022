@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminEmployeesController;
 use App\Http\Controllers\AdminProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminSettingController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\PagesController;
 
@@ -67,6 +68,11 @@ Route::prefix('admin')->middleware(['admins'])->group(function(){
     //CUSTOMERS
     Route::get('customers', [AdminCustomerController::class, 'index'])->name('admin.customers');
     Route::get('customers/show/{id}', [AdminCustomerController::class, 'show'])->name('admin.customers.show');
+
+    //SETTINGS
+    Route::get('/settings', [AdminSettingController::class, 'index'])->name('admin.settings');
+    Route::post('/update-settings', [AdminSettingController::class, 'update'])->name('admin.settings.update');
+
 
 
 });

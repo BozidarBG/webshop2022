@@ -26,7 +26,7 @@ class Product extends Model
     }
 */
     public function getImageAttribute($image){
-        return $image ? self::$storage.'/'.$image : 'products/no_image.jpg';
+        return $image ? self::$storage.'/'.$image : 'app_images/no_image.jpg';
     }
 
     public function formatedPrice(){
