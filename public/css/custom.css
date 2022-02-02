@@ -1,0 +1,23 @@
+.nav-shop__custom-circle{
+    position: relative;
+    top:-10px;
+    left:-2px;
+    /*color: #0c84ff !important;*/
+    background: #0c84ff;
+    border-radius: 50%;
+    font-size: 0.8rem !important;
+    color: #ffffff !important;
+    padding: 2px 5px;
+}
+
+/*
+display: block;
+float: none;
+margin-right: 0px;
+border-bottom: 1px solid #ededed;
+margin-left: 0px;
+transition: all 0.4s linear;
+
+.nav-shop li:last-child {
+    margin-left: 40px;
+}
