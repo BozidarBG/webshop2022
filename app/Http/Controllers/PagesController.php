@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Cache;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Contact;
 
 class PagesController extends Controller
 {
@@ -54,7 +55,29 @@ class PagesController extends Controller
     }
 
     public function contactUs(){
-        return view('all_users.contact_us', ['categories'=>$this->categories]);
+        return view('all_users.contact_us', ['categories'=>$this->categories, 'title'=>'Contact Us']);
+    }
+
+    public function storeContactUs(Request $request){
+        $this->validate($request, [
+            'name'=>'required|max:50',
+            'email'=>'required|email|max:150',
+            'subject'=>'required|max:255',
+            'message'=>'required|max:2000'
+        ]);
+
+        $contact=new Contact();
+        $contact->name=$request->name;
+        $contact->email=$request->email;
+        $contact->subject=$request->subject;
+        $contact->message=$request->message;
+        $contact->save();
+
+        session()->flash('success', 'Your inquiry is saved. Someone will contact you soon!');
+        return redirect()->route('contact.us');
+
+        //status: pending, email_sent, closed
+        //solution if closed: discarded, answered,
     }
 
     public function profile(){

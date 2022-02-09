@@ -21,3 +21,26 @@ transition: all 0.4s linear;
 .nav-shop li:last-child {
     margin-left: 40px;
 }
+
+
+ */
+
+.quantity{
+    height:38px;
+    width:60px;
+    border:2px solid #384AEB;
+    border-radius:3px;
+}
+.btn-outline-blue{
+    border:2px solid #384AEB;
+    background:white;
+    color:#384AEB;
+    height:38px;
+    width:38px;
+    border-radius:3px;
+    transition: .3s ease;
+}
+.btn-outline-blue:hover{
+    background: #384AEB;
+    color:white;
+}

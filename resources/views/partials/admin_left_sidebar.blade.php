@@ -107,6 +107,34 @@
 
             </ul>
         </li>
+
+
+        <li class="nav-item">
+            <a href="#" class="nav-link {{ (request()->is('admin/contact-us*')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-question"></i>
+                <p>
+                    Contact Us
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+
+            <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                    <a href="{{route('admin.contact.us.in.progress')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>In progress</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.contact.us.closed')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Closed</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
         <li class="nav-item">
             <a href="{{route('admin.settings')}}" class="nav-link {{ (request()->is('admin/settings')) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-cog"></i>

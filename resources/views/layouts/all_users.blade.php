@@ -37,6 +37,8 @@
 <script src="{{asset('vendors/jquery.ajaxchimp.min.js')}}"></script>
 <script src="{{asset('vendors/mail-script.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
+<script src="{{asset('js/my-app.js')}}"></script>
+
 @yield('scripts')
 </body>
 </html>

@@ -3,7 +3,10 @@
 @section('title', 'product')
 
 @section('styles')
+<style>
 
+
+</style>
 @endsection
 
 @section('content')
@@ -29,17 +32,19 @@
 							<li><a href="#"><span>Availibility</span> : @if($product->stock >5) In Stock @else Few Items Left @endif</a></li>
 						</ul>
 						<p>{{$product->short_desc}}</p>
-						<div class="product_count">
-                            <label for="qty">Quantity:</label>
-                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-							 class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
-							<input type="number" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty" min="1" max="{{$product->stock}}">
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-               class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-							<a class="button primary-btn" href="#">Add to Cart</a>               
+						<div class="form-group">
+                            <p class="m-0">Quantity: <span class="m-0 text-danger d-none" id="qty_error">You can't order more of this product</span></p>
+
+							<div class="d-flex align-items-center ">
+								<button class="btn-outline-blue mr-1" type="button" id="btn_minus"><i class="fas fa-minus"></i></button>
+								<input id="qty" type="number" name="qty" value="1" class="quantity mr-1" min="1" max="{{$product->stock}}">
+								<button class="btn-outline-blue mr-3" type="button" id="btn_plus"><i class="fas fa-plus"></i></button>
+								<a class="button primary-btn" href="#">Add to Cart</a>
+							</div>
+
 						</div>
 						<div class="card_area d-flex align-items-center">
-							<a class="icon_btn" href="#"><i class="far fa-gem"></i></i></a>
+							<a class="icon_btn" href="#"><i class="far fa-gem"></i></a>
 							<a class="icon_btn" href="#"><i class="far fa-heart"></i></a>
 						</div>
 					</div>
@@ -56,13 +61,13 @@
 				<li class="nav-item">
 					<a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
 				</li>
-                
+
 			</ul>
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 					{!! $product->description !!}
 				</div>
-               
+
 			</div>
 		</div>
 	</section>
@@ -70,5 +75,47 @@
 @endsection
 
 @section('scripts')
+<script>
+	let qty_error=document.getElementById('qty_error');
 
+	let qty=document.getElementById('qty');
+	let max_qty={{$product->stock}};
+
+	const hideQtyError=()=>{
+		qty_error.classList.add('d-none');
+	}
+	const showQtyError=()=>{
+		qty_error.classList.remove('d-none');
+	}
+
+	const decreaseQty=()=>{
+		hideQtyError();
+		if(qty.value>0){
+			qty.value = parseInt(qty.value)-1;
+		}
+
+	}
+
+	const increaseQty=()=>{
+		hideQtyError();
+		if(qty.value<max_qty){
+			qty.value = parseInt(qty.value)+1;
+		}else{
+			showQtyError();
+		}
+	}
+
+    class QtyUpdater {
+        constructor(){
+            this.,minus
+        }
+    }
+
+    let show_product=new QtyUpdater();
+	new Listener('click', 'btn_minus', 'id', show_product.decreaseQty);
+	new Listener('click', 'btn_plus', 'id', show_product.increaseQty);
+
+
+
+</script>
 @endsection

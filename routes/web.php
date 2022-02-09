@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminCustomerController;
+use App\Http\Controllers\AdminContactUsController;
 
 use App\Http\Controllers\AdminEmployeesController;
 use App\Http\Controllers\AdminProductController;
@@ -27,8 +28,9 @@ Route::get('/products-by-category/{slug}', [PagesController::class, 'productsByC
 Route::get('/search', [PagesController::class, 'search'])->name('search');
 Route::get('/show-product/{slug}', [PagesController::class, 'showProduct'])->name('product.show');
 Route::get('/contact-us', [PagesController::class, 'contactUs'])->name('contact.us');
+Route::post('/store-contact-us', [Pagescontroller::class, 'storeContactUs'])->name('store.contact.us');
 Route::get('/checkout', [PagesController::class, 'checkout'])->name('checkout');
-Route::get('/cart', [PagesController::class, 'home'])->name('cart');
+Route::get('/cart', [PagesController::class, 'cart'])->name('cart');
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('dashboard', [UserDashboardController::class, 'profile'])->name('user.dashboard');
@@ -72,6 +74,12 @@ Route::prefix('admin')->middleware(['admins'])->group(function(){
     //SETTINGS
     Route::get('/settings', [AdminSettingController::class, 'index'])->name('admin.settings');
     Route::post('/update-settings', [AdminSettingController::class, 'update'])->name('admin.settings.update');
+
+    //CONTACT US
+    Route::get('/contact-us-in-progress', [AdminContactUsController::class, 'index'])->name('admin.contact.us.in.progress');
+    Route::get('/contact-us-closed', [AdminContactUsController::class, 'closed'])->name('admin.contact.us.closed');
+    Route::get('/edit-contact-us/{id}', [AdminContactUsController::class, 'edit'])->name('admin.contact.us.edit');
+    Route::post('/update-contact-us/{id}', [AdminContactUsController::class, 'update'])->name('admin.contact.us.update');
 
 
 
