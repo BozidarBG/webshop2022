@@ -31,7 +31,7 @@ class ProductFactory extends Factory
             'acc_code'=>Str::random(8),
             'short_desc'=>$this->faker->sentence(15),
             'description'=>"<p>".$this->faker->sentence(50)."</p>",
-            'price'=>$price,
+            'regular_price'=>$price,
             'action_price'=>$this->faker->randomElement([0, $price*.9]),
             'stock'=>$this->faker->randomElement([0, rand(1, 100)]),
             'published'=>$this->faker->randomElement([true, false]),

@@ -10,7 +10,7 @@
     <meta name="description" content="{{$settings->description}}">
     <meta name="keywords" content="{{$settings->keywords}}">
     <meta name="generator" content="{{$settings->generator}}">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{asset('vendors/bootstrap/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendors/fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendors/themify-icons/themify-icons.css')}}">
@@ -24,7 +24,7 @@
 </head>
 <body>
 @include('partials.user_nav')
-
+@include('partials.toaster_msg')
 @yield('content')
 @include('partials.subscribe')
 @include('partials.user_footer')
@@ -37,8 +37,13 @@
 <script src="{{asset('vendors/jquery.ajaxchimp.min.js')}}"></script>
 <script src="{{asset('vendors/mail-script.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
-<script src="{{asset('js/my-app.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js" integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script src="{{asset('js/my-app.js')}}"></script>
+<script src="{{asset('js/my-cart.js')}}"></script>
+<script>
+    new showCartQuantity();
+</script>
 @yield('scripts')
 </body>
 </html>

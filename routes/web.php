@@ -11,6 +11,8 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminSettingController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\CartController;
+
 
 
 //Route::get('/', function () {
@@ -28,9 +30,14 @@ Route::get('/products-by-category/{slug}', [PagesController::class, 'productsByC
 Route::get('/search', [PagesController::class, 'search'])->name('search');
 Route::get('/show-product/{slug}', [PagesController::class, 'showProduct'])->name('product.show');
 Route::get('/contact-us', [PagesController::class, 'contactUs'])->name('contact.us');
-Route::post('/store-contact-us', [Pagescontroller::class, 'storeContactUs'])->name('store.contact.us');
+Route::post('/store-contact-us', [PagesController::class, 'storeContactUs'])->name('store.contact.us');
 Route::get('/checkout', [PagesController::class, 'checkout'])->name('checkout');
 Route::get('/cart', [PagesController::class, 'cart'])->name('cart');
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
+Route::post('/update-cart', [CartController::class, 'updateCart'])->name('update.cart');
+
+Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
+
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('dashboard', [UserDashboardController::class, 'profile'])->name('user.dashboard');

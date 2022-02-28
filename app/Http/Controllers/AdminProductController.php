@@ -95,7 +95,7 @@ class AdminProductController extends Controller
         $product->acc_code=$request->acc_code;
         $product->short_desc=$request->short_description;
         $product->description=$request->description;
-        $product->price=$request->price*100;
+        $product->regular_price=$request->regular_price*100;
         $product->action_price=$request->action_price*100;
         $product->stock=$request->stock;
 
@@ -146,7 +146,7 @@ class AdminProductController extends Controller
         $product->acc_code=$request->acc_code;
         $product->short_desc=$request->short_description;
         $product->description=$request->description;
-        $product->price=$request->price*100;
+        $product->regular_price=$request->regular_price*100;
         $product->action_price=$request->action_price*100;
         $product->stock=$request->stock;
 

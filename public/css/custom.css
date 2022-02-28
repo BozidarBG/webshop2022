@@ -31,6 +31,13 @@ transition: all 0.4s linear;
     border:2px solid #384AEB;
     border-radius:3px;
 }
+
+.quantity_error{
+    height:38px;
+    width:60px;
+    border:2px solid #dc3545;
+    border-radius:3px;
+}
 .btn-outline-blue{
     border:2px solid #384AEB;
     background:white;
@@ -44,3 +51,13 @@ transition: all 0.4s linear;
     background: #384AEB;
     color:white;
 }
+.toast_container{
+    position: fixed;
+    top:90px;
+    right: 0;
+    width: 300px;
+    z-index: 20;
+    border-radius: 5px;
+}
+
+

@@ -55,7 +55,7 @@
 
                     <ul class="nav-shop">
                         <li class="nav-item"><a href="#"><i class="ti-search"></i></a></li>
-                        <li class="nav-item"><a href="{{route('cart')}}"><i class="ti-shopping-cart"></i></a> <span class="nav-shop__custom-circle">0</span></li>
+                        <li class="nav-item"><a href="{{route('cart')}}"><i class="ti-shopping-cart"></i></a> <span class="nav-shop__custom-circle">{{Cart::count()}}</span></li>
                         <li class="nav-item"><a class="button button-header" href="{{route('checkout')}}">Buy Now</a></li>
                     </ul>
                     <ul class="nav navbar-nav menu_nav ml-auto mr-auto">

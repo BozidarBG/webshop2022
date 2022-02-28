@@ -29,8 +29,12 @@ class Product extends Model
         return $image ? self::$storage.'/'.$image : 'app_images/no_image.jpg';
     }
 
-    public function formatedPrice(){
-        return number_format($this->price/100, 2, ',', '.');
+    public function formatedRegularPrice(){
+        return number_format($this->regular_price/100, 2, ',', '.');
+    }
+
+    public static function formatedPrice($price){
+        return number_format($price, 2, ',', '.');
     }
 
     public function formatedActionPrice(){

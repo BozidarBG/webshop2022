@@ -58,20 +58,20 @@
                 </ul>
               </form>
             </div>
-            <div class="common-filter">
-              <div class="head">Price</div>
-              <div class="price-range-area">
-                <div id="price-range" class="noUi-target noUi-ltr noUi-horizontal"><div class="noUi-base"><div class="noUi-origin" style="left: 10%;"><div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="50.0" aria-valuenow="10.0" aria-valuetext="500.00" style="z-index: 5;"></div></div><div class="noUi-connect" style="left: 10%; right: 50%;"></div><div class="noUi-origin" style="left: 50%;"><div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="10.0" aria-valuemax="100.0" aria-valuenow="50.0" aria-valuetext="4000.00" style="z-index: 6;"></div></div></div></div>
-                <div class="value-wrapper d-flex">
-                  <div class="price">Price:</div>
-                  <span>$</span>
-                  <div id="lower-value">500.00</div>
-                  <div class="to">to</div>
-                  <span>$</span>
-                  <div id="upper-value">4000.00</div>
-                </div>
-              </div>
-            </div>
+{{--            <div class="common-filter">--}}
+{{--              <div class="head">Price</div>--}}
+{{--              <div class="price-range-area">--}}
+{{--                <div id="price-range" class="noUi-target noUi-ltr noUi-horizontal"><div class="noUi-base"><div class="noUi-origin" style="left: 10%;"><div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="50.0" aria-valuenow="10.0" aria-valuetext="500.00" style="z-index: 5;"></div></div><div class="noUi-connect" style="left: 10%; right: 50%;"></div><div class="noUi-origin" style="left: 50%;"><div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="10.0" aria-valuemax="100.0" aria-valuenow="50.0" aria-valuetext="4000.00" style="z-index: 6;"></div></div></div></div>--}}
+{{--                <div class="value-wrapper d-flex">--}}
+{{--                  <div class="price">Price:</div>--}}
+{{--                  <span>$</span>--}}
+{{--                  <div id="lower-value">500.00</div>--}}
+{{--                  <div class="to">to</div>--}}
+{{--                  <span>$</span>--}}
+{{--                  <div id="upper-value">4000.00</div>--}}
+{{--                </div>--}}
+{{--              </div>--}}
+{{--            </div>--}}
           </div>
         </div>
         <div class="col-xl-9 col-lg-8 col-md-7">
@@ -109,8 +109,10 @@
                 <div class="card text-center card-product">
                   <div class="card-product__img">
                     <img class="card-img" src="{{asset($product->image)}}" alt="product image">
-                    <ul class="card-product__imgOverlay">
-                      <li><button><i class="ti-shopping-cart"></i></button></li>
+                    <ul class="card-product__imgOverlay"
+                        data-id="{{$product->id}}" data-name="{{$product->name}}" data-slug="{{$product->slug}}" data-acc_code="{{$product->acc_code}}"
+                        data-stock="{{$product->stock}}" data-regular_price="{{$product->regular_price}}" data-action_price="{{$product->action_price}}" data-image="{{$product->image}}">
+                      <li><button class="add_to_cart" ><i class="ti-shopping-cart"></i></button></li>
                       <li><button><i class="ti-heart"></i></button></li>
                     </ul>
                   </div>
@@ -119,8 +121,8 @@
                     <h4 class="card-product__title"><a href="{{route('product.show', ['slug'=>$product->slug])}}">{{$product->name}}</a></h4>
                     <p class="card-product__price">
                         @if($product->action_price)
-                        <s class="mr-2">{{$product->formatedPrice()}}</s><span class="text-danger">{{$product->formatedActionPrice()}}</span>
-                        @else<span class="">{{$product->formatedPrice()}}</span>
+                        <s class="mr-2">{{$product->formatedRegularPrice()}}</s><span class="text-danger">{{$product->formatedActionPrice()}}</span>
+                        @else<span class="">{{$product->formatedRegularPrice()}}</span>
                         @endif
                     </p>
                   </div>
@@ -144,9 +146,13 @@
     </div>
   </section>
 
-  
+
 @endsection
 
 @section('scripts')
-
+<script>
+    let x=new AddToCartFromCategoryPage();
+    console.log(x.cart_items)
+    //x.clearStorage();
+</script>
 @endsection
