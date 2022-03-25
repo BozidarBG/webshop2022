@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    @include('partials.succes_msg')
+    @include('partials.success_msg')
     <div class="col-12">
     <div class="card card-primary" id="create_div">
             <div class="card-header">

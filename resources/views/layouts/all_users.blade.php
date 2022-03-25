@@ -41,9 +41,7 @@
 
 <script src="{{asset('js/my-app.js')}}"></script>
 <script src="{{asset('js/my-cart.js')}}"></script>
-<script>
-    new showCartQuantity();
-</script>
+
 @yield('scripts')
 </body>
 </html>

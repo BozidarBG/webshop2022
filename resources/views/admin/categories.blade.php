@@ -6,7 +6,6 @@
 @endsection
 
 @section('content')
-{{--    @include('partials.succes_msg')--}}
     @include('partials.confirmation_modal')
 <div id="fc_toaster" class="position-absolute w-25 alert d-none" style="z-index: 10"></div>
     <div class="col-md-8 col-sm-12">

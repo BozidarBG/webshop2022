@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Cache;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Contact;
+use DB;
 
 class PagesController extends Controller
 {
 
 
     public function home(){
-        return view('all_users.home');
+        $products=Product::with('category')->where('stock', '>', 0)->where('published', 1)->inRandomOrder()->limit(16)->get();
+        return view('all_users.home',
+            [
+                'products'=>$products->take(8),
+                'best_sellers'=>$products->take(-8)
+            //'products'=>Product::with('category')->where('stock', '>', 0)->where('published', 1)->inRandomOrder()->limit(8)->get(),
+            //'best_sellers'=>Product::with('category')->where('stock', '>', 0)->where('published', 1)->inRandomOrder()->limit(8)->get()
+                ]);
     }
     public function productsByCategory($slug){
 
@@ -77,4 +87,13 @@ class PagesController extends Controller
     public function profile(){
         return view('auth_users.profile');
     }
+
+//    public function checkCoupon($coupon_code){
+//        $coupon=Coupon::where('code', $coupon_code)->where('valid_from', '<=', Carbon::now())->where('valid_until', '>=', Carbon::now())->first();
+//        if($coupon){
+//            return response()->json(['success'=>$coupon]);
+//        }else{
+//            return response()->json(['error'=>'This coupon is not valid']);
+//        }
+//    }
 }

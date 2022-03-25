@@ -21,9 +21,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('css/all.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     @yield('styles')
 </head>
 <body class="hold-transition sidebar-mini">
+@include('partials.toaster_msg')
+
 <div class="wrapper">
 
     <!-- Navbar -->
@@ -42,13 +45,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Navbar Search -->
-            
+
             @if(strstr(strtolower($page), 'products') || strstr($page, 'Search'))
             <li class="nav-item">
                 <a class="nav-link" id="navbar_search" href="#" role="button">
                     <i class="fas fa-search"></i>
                 </a>
-               
+
             </li>
             @endif
             <!-- Messages Dropdown Menu -->

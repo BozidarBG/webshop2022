@@ -27,10 +27,10 @@
 					<div class="s_product_text">
 						<h3>{{$product->name}}</h3>
                         @if($product->action_price)
-						<h2><s>{{$product->formatedRegularPrice()}}</s></h2>
-                        <h2 class="text-danger text-bold">{{$product->formatedActionPrice()}}</h2>
+						<h2><s>{{formatPrice($product->regular_price)}}</s></h2>
+                        <h2 class="text-danger text-bold">{{formatPrice($product->action_price)}}</h2>
                         @else
-                        <h2>{{$product->formatedRegularPrice()}}</h2>
+                        <h2>{{formatPrice($product->regular_price)}}</h2>
                         @endif
 						<ul class="list">
 							<li><a class="active" href="{{route('products.by.category', ['slug'=>$product->category->slug])}}"><span>Category</span> : {{$product->category->name}}</a></li>

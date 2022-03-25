@@ -38,6 +38,15 @@ transition: all 0.4s linear;
     border:2px solid #dc3545;
     border-radius:3px;
 }
+.qty_col{
+    position: relative;
+}
+.qty_error{
+    position:absolute;
+    z-index: 5;
+    top:10px;
+    left:0;
+}
 .btn-outline-blue{
     border:2px solid #384AEB;
     background:white;
@@ -54,10 +63,33 @@ transition: all 0.4s linear;
 .toast_container{
     position: fixed;
     top:90px;
-    right: 0;
+    right: 5px;
     width: 300px;
     z-index: 20;
     border-radius: 5px;
+    padding:20px;
+    display: flex;
+    align-self: end;
+}
+
+
+
+.button_green {
+    display: inline-block;
+    border: 1px solid #3b8808;
+    border-radius: 30px;
+    font-weight: 500;
+    padding: 12px 50px;
+    background: #3b8808;
+    color: #fff !important;
+    transition: all .4s ease;
+    cursor: pointer;
+}
+
+.button_green:hover{
+    background: transparent;
+    color:#000b16 !important;
+
 }
 
 

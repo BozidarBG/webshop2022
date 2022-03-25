@@ -1,17 +1,20 @@
 <?php
 
+use App\Http\Controllers\AdminOrderController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminContactUsController;
-
 use App\Http\Controllers\AdminEmployeesController;
 use App\Http\Controllers\AdminProductController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminCouponController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminSettingController;
+
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 
 
@@ -31,14 +34,14 @@ Route::get('/search', [PagesController::class, 'search'])->name('search');
 Route::get('/show-product/{slug}', [PagesController::class, 'showProduct'])->name('product.show');
 Route::get('/contact-us', [PagesController::class, 'contactUs'])->name('contact.us');
 Route::post('/store-contact-us', [PagesController::class, 'storeContactUs'])->name('store.contact.us');
-Route::get('/checkout', [PagesController::class, 'checkout'])->name('checkout');
+Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::get('/cart', [PagesController::class, 'cart'])->name('cart');
-Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
-Route::post('/update-cart', [CartController::class, 'updateCart'])->name('update.cart');
 
-Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove.from.cart');
+Route::post('check-cart-items-and-coupon', [CartController::class, 'checkCartItemsAndCoupon'])->name('check.cart.items.and.coupon');
 
-
+Route::get('/check-coupon/{code}', [CartController::class, 'checkCouponAndReturnValue'])->name('check.coupon');
+Route::post('/create-order', [CheckoutController::class, 'createOrder'])->name('create.order');
+Route::get('/thank-you', [CheckoutController::class, 'thankYou'])->name('thank_you');
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('dashboard', [UserDashboardController::class, 'profile'])->name('user.dashboard');
 });
@@ -88,6 +91,16 @@ Route::prefix('admin')->middleware(['admins'])->group(function(){
     Route::get('/edit-contact-us/{id}', [AdminContactUsController::class, 'edit'])->name('admin.contact.us.edit');
     Route::post('/update-contact-us/{id}', [AdminContactUsController::class, 'update'])->name('admin.contact.us.update');
 
+    Route::get('/coupons', [AdminCouponController::class, 'index'])->name('admin.coupons');
+    Route::get('/coupons-create', [AdminCouponController::class, 'create'])->name('admin.create.coupons');
+    Route::post('/coupons', [AdminCouponController::class, 'store'])->name('admin.coupons.store');
+    Route::get('/coupons/edit/{coupon}', [AdminCouponController::class, 'edit'])->name('admin.coupons.edit');
+    Route::post('/coupons/update/{coupon}', [AdminCouponController::class, 'update'])->name('admin.coupons.update');
+    Route::post('/coupons/delete/{coupon}', [AdminCouponController::class, 'destroy'])->name('admin.coupons.destroy');
+
+    //ORDERS AND CART ITEMS
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders');
+    Route::get('/orders-show/{order}', [AdminOrderController::class, 'edit'])->name('admin.orders.edit');
 
 
 });

@@ -12,7 +12,7 @@
 <section class="section-margin--small">
     <div class="container">
       <div class="row">
-      @include('partials.succes_msg')
+      @include('partials.success_msg')
         <div class="col-md-4 col-lg-3 mb-4 mb-md-0">
           <div class="media contact-info">
             <span class="contact-info__icon"><i class="ti-home"></i></span>
@@ -81,5 +81,7 @@
 @endsection
 
 @section('scripts')
-
+<script>
+    new BaseCart();
+</script>
 @endsection

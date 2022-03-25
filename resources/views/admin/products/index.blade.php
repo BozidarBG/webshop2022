@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    @include('partials.succes_msg')
+    @include('partials.success_msg')
     @include('partials.confirmation_modal')
     <div class="col-12" id="search_form">
         <div class="card">
@@ -93,8 +93,8 @@
                             <td>{{$product->name}}</td>
                             <td>{{$product->category->name}}</td>
                             <td>{{$product->acc_code}}</td>
-                            <td>{{$product->formatedPrice()}}</td>
-                            <td>{{$product->formatedActionPrice()}}</td>
+                            <td>{{formatPrice($product->regular_price)}}</td>
+                            <td>{{formatPrice($product->action_price)}}</td>
                             <td>{{$product->stock}}</td>
                             <td>{{$product->published ? 'Yes': 'No'}}</td>
                             <td><a href="{{route('admin.products.edit', $product)}}" class="btn btn-small btn-warning">Edit</a></td>
@@ -178,10 +178,10 @@
         //console.log(e.target)
         let search=document.getElementById('search_form');
         search.classList.contains('d-none') ? search.classList.remove('d-none') : search.classList.add('d-none');
-        
+
     }
     new Listener('click', 'fc_delete_modal', 'class', getDeleteRowAndRoute);
-    new Listener('click', 'fc_restore_modal', 'class', restoreRow); 
+    new Listener('click', 'fc_restore_modal', 'class', restoreRow);
     new Listener('click', 'navbar_search', 'id', toggleSearch)
 
     toggleSearch();

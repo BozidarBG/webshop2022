@@ -133,15 +133,21 @@ class AdminProductController extends Controller
     }
 
     public function update(ProductRequest $request, Product $product){
-        $name_count=Product::where('name', $request->name)->count();
-        if($name_count==0){
-            $slug=Str::slug($request->name);
-        }else{
-            $slug=Str::slug($request->name).'-'.$name_count;
+
+        if($product->name != $request->name){
+            $name_count=Product::where('name', $request->name)->count();
+
+            if($name_count==0){
+                $slug=Str::slug($request->name);
+            }else{
+                $slug=Str::slug($request->name).'-'.$name_count;
+            }
+            $product->slug=$slug;
         }
+
         //dd($name_count);
         $product->name=$request->name;
-        $product->slug=$slug;
+
         $product->category_id=$request->category;
         $product->acc_code=$request->acc_code;
         $product->short_desc=$request->short_description;

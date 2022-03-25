@@ -12,8 +12,8 @@
                 </button>
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-                        <li class="nav-item active"><a class="nav-link" href="{{route('home')}}">Home</a></li>
-                        <li class="nav-item submenu dropdown">
+                        <li class="nav-item @if(request()->is('/')) active @endif"><a class="nav-link" href="{{route('home')}}">Home</a></li>
+                        <li class="nav-item @if(request()->is("products-by-category*")) active @endif submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                aria-expanded="false">Categories</a>
                             <ul class="dropdown-menu">
@@ -22,41 +22,12 @@
                                 @endforeach
                             </ul>
                         </li>
-                        <li class="nav-item submenu dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="">Shop Category</a></li>
-                                <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-                                <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                                <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                                <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-                            </ul>
-                        </li>
-{{--                        <li class="nav-item submenu dropdown">--}}
-{{--                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--}}
-{{--                               aria-expanded="false">Blog</a>--}}
-{{--                            <ul class="dropdown-menu">--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item submenu dropdown">--}}
-{{--                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--}}
-{{--                               aria-expanded="false">Pages</a>--}}
-{{--                            <ul class="dropdown-menu">--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>--}}
-{{--                                <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
-                        <li class="nav-item"><a class="nav-link" href="{{route('contact.us')}}">Contact</a></li>
+                        <li class="nav-item  @if(request()->is('contact-us')) active @endif"><a class="nav-link" href="{{route('contact.us')}}">Contact</a></li>
                     </ul>
 
                     <ul class="nav-shop">
                         <li class="nav-item"><a href="#"><i class="ti-search"></i></a></li>
-                        <li class="nav-item"><a href="{{route('cart')}}"><i class="ti-shopping-cart"></i></a> <span class="nav-shop__custom-circle">{{Cart::count()}}</span></li>
-                        <li class="nav-item"><a class="button button-header" href="{{route('checkout')}}">Buy Now</a></li>
+                        <li class="nav-item "><a href="{{route('cart')}}"><i class="ti-shopping-cart"></i></a> <span class="nav-shop__custom-circle"></span></li>
                     </ul>
                     <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
                         @guest
@@ -69,6 +40,9 @@
                                aria-expanded="false">{{auth()->user()->name}}</a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item"><a class="nav-link" href="{{route('user.dashboard')}}">Profile</a></li>
+                                @if(auth()->user()->isAdmin())
+                                    <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard')}}">Admin Dashboard</a></li>
+                                @endif
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <li class="nav-item">

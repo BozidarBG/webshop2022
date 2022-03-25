@@ -4,15 +4,7 @@
 
 @section('styles')
 <style>
-.qty_col{
-    position: relative;
-}
-.qty_error{
-    position:absolute;
-    z-index: 5;
-    top:10px;
-    left:0;
-}
+
 </style>
 @endsection
 
@@ -38,15 +30,19 @@
                         </tbody>
                         <tbody>
                         <tr class="bottom_button">
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
                             <td></td>
                             <td></td>
                             <td>
                                 <div class="cupon_text d-flex align-items-center justify-content-end">
-                                    <input type="text" placeholder="Coupon Code">
-                                    <a class="primary-btn" href="#">Apply</a>
+                                    <input type="text" placeholder="Coupon Code" class="d-none have_coupon bg-dark" id="coupon_input">
+                                    <a class="primary-btn d-none have_coupon" href="javascript:void(0)" id="apply_coupon">Apply</a>
+                                    <a class="button coupons_hidden" href="javascript:void(0)" id="coupon_toggle">Do you have a Coupon?</a>
                                 </div>
                             </td>
                         </tr>
@@ -58,16 +54,14 @@
                             <td></td>
                             <td></td>
                             <td>
-                                <h5>Subotal RSD</h5>
-                                <h5>Subtotal with Coupon RSD</h5>
-
+                                <h5>Subtotal RSD</h5>
+                                <h5 class="d-none have_coupon">Subtotal with Coupon RSD</h5>
                                 <h5>Shipping RSD</h5>
                                 <h4>Total For Payment RSD</h4>
                             </td>
                             <td>
                                 <h5 id="subtotal"></h5>
-                                <h5>0</h5>
-
+                                <h5 id="subtotal_with_coupon" class="d-none have_coupon"></h5>
                                 <h5 id="shipping_fee"></h5>
                                 <h4 id="total"></h4>
                             </td>
@@ -88,7 +82,7 @@
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
                                     <a class="gray_btn" href="/">Continue Shopping</a>
-                                    <a class="primary-btn ml-2" href="{{route('checkout')}}">Proceed to checkout</a>
+                                    <a class="primary-btn ml-2" href="javascript:void(0)" id="go_to_checkout">Proceed to checkout</a>
                                 </div>
                             </td>
                         </tr>

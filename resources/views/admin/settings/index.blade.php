@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    @include('partials.succes_msg')
+    @include('partials.success_msg')
 
     <div class="col-12" >
         <div class="card">
@@ -104,7 +104,7 @@
                                 @enderror
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="row">
                             <div class="col-md-4 col-sm-12">
@@ -125,7 +125,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        
+
                         </div>
                         <div class="row">
                             <div class="col-12">

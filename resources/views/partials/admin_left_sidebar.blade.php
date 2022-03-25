@@ -3,7 +3,30 @@
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
+        <li class="nav-item">
+            <a href="#" class="nav-link {{ (request()->is('admin/orders*')) ? 'active' : '' }}">
+                <i class="nav-icon far fa-newspaper"></i>
+                <p>
+                    Orders
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
 
+            <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                    <a href="{{route('admin.orders')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>All Orders</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>nešto</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="nav-item">
             <a href="{{route('admin.categories')}}" class="nav-link {{ (request()->is('admin/categories*')) ? 'active' : '' }}">
                 <i class="nav-icon fab fa-audible"></i>
@@ -134,6 +157,30 @@
             </ul>
         </li>
 
+        <li class="nav-item">
+            <a href="#" class="nav-link {{ (request()->is('admin/coupons*')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-copyright"></i>
+                <p>
+                    Coupons
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+
+            <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                    <a href="{{route('admin.coupons')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>All Coupons</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.create.coupons')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Create Coupon</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
         <li class="nav-item">
             <a href="{{route('admin.settings')}}" class="nav-link {{ (request()->is('admin/settings')) ? 'active' : '' }}">

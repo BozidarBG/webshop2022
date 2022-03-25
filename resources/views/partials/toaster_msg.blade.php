@@ -1,3 +1,3 @@
-<div class="toast_container p-3 d-flex align-items-center justify-content-center">
+<div class="toast_container " id="fc_toaster" >
     <span class="text-white"></span>
 </div>

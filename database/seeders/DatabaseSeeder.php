@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         //$this->call([RolesTableSeeder::class, AdminsTableSeeder::class, UsersTableSeeder::class]);
         //$this->call([CategorySeeder::class]);
-        \DB::table('products')->truncate();
-        \App\Models\Product::factory(500)->create();
+        //\DB::table('products')->truncate();
+        //\App\Models\Product::factory(500)->create();
     }
 }

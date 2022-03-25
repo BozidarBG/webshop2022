@@ -8,8 +8,8 @@
 @endsection
 
 @section('content')
-    @include('partials.succes_msg')
-{{--    @include('partials.errors_in_div')--}}
+    @include('partials.success_msg')
+    @include('partials.errors_in_div')
     <div class="col-12">
         <!-- Table -->
         <div class="card card-info">
@@ -17,8 +17,6 @@
                 <h3 class="card-title">Edit product</h3>
             </div>
 
-                <!-- /.card-header -->
-                <!-- form start -->
                 <form method="POST" action="{{route('admin.products.update', [$product])}}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
@@ -53,8 +51,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Price </label>
-                                    <input type="number" min="0" step="any"  name="price" class="form-control @error('price') is-invalid @enderror" placeholder="Price" value="{{$product->price/100}}">
-                                    @error('price')
+                                    <input type="number" min="0" step="any"  name="regular_price" class="form-control @error('regular_price') is-invalid @enderror" placeholder="Price" value="{{$product->regular_price/100}}">
+                                    @error('regular_price')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
