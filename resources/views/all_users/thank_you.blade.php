@@ -14,7 +14,9 @@
         <div class="container">
             <h3 class="text-center">Thank you for your order!</h3>
             <p class="text-center billing-alert">Please, check your email for order details. Operators will contact you shortly via email or phone.</p>
-
+            @auth
+                <p class="text-center billing-alert">Also, you can see this order in your profile, under <a href="{{route('user.orders')}}">orders</a>.</p>
+            @endauth
         </div>
     </section>
 

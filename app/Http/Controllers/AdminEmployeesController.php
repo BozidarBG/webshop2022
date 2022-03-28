@@ -15,11 +15,12 @@ class AdminEmployeesController extends Controller
 {
 
     private $roles;
-    private $employees; 
+    private $employees;
 
     public function __construct(){
+        info(Cache::get('employees'));
         $this->employees=Cache::rememberForever('employees', function(){
-            $ids=DB::table('role_user')->distinct('user_id')->pluck('user_id');
+            $ids=DB::table('roles_users')->distinct('user_id')->pluck('user_id');
             return User::with('roles')->whereIn('id', $ids)->get();
         });
 
@@ -30,7 +31,9 @@ class AdminEmployeesController extends Controller
     }
 
     public function index(){
-        
+        info(json_encode($this->roles));
+        info(json_encode($this->employees));
+
         return view('admin.employees.index', [
             'employees'=>$this->employees,
             'roles'=>$this->roles,
@@ -94,7 +97,7 @@ class AdminEmployeesController extends Controller
             $user->roles()->detach($request->roles);
             session()->flash('success', 'Employee removed!');
         }
-     
+
 
         Cache::forget('employees');
         return redirect()->route('admin.employees');

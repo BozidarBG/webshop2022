@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', 'profile')
+@section('title', 'edit profile')
 
 @section('styles')
 
 @endsection
 
 @section('content')
-profil
+   edi profil
 @endsection
 
 @section('scripts')

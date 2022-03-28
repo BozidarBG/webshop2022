@@ -15,12 +15,15 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        //master:
-        //administrator: order=>pending, preparing, canceled/contacted by,
-        //product moderator
-        //warehouse worker: changes order status=>pending, preparing, waiting for courier, in transit, returned,
+        //master: categories, employees, coupons, settings
+        //order administrator: order=>pending, preparing, canceled; contacted by,contacts users and approves/disapproves order / deletes orders
+        //when cod is paid, updates payment, answers questions in contact us
+        //product moderator: creates products image and description , answers questions in contact us
+        //product manager: changes prices and quantity and publishes/unpublishes
+        //warehouse manager: changes order status=>pending, preparing, waiting for courier, in transit, returned,
+        //
         DB::table('roles')->truncate();
-        $arr=['Master', 'Administrator', 'Product Moderator','Warehouse Worker'];
+        $arr=['Master', 'Orders Administrator', 'Product Moderator','Product Manager', 'Warehouse Manager'];
         foreach($arr as $role){
             $r=new Role();
             $r->name=$role;

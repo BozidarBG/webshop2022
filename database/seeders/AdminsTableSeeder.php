@@ -18,7 +18,7 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        $names=['Sean Connery', 'Leslie Nielsen', 'Jerry Lewis'];
+        $names=['Tony Stark', 'Steven Rogers', 'Peter Parker', 'Thor Odinson', 'Stephen Strange', 'Bruce Banner', 'Nick Fury'];
 
         //DB::table('users')->truncate();
 
@@ -31,10 +31,7 @@ class AdminsTableSeeder extends Seeder
             $user->password = Hash::make('Ii123456/');
             $user->save();
 
-            $role=new RoleUser();
-            $role->user_id=$user->id;
-            $role->role_id=$i+1;
-            $role->save();
+
         }
     }
 }

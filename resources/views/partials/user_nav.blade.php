@@ -39,7 +39,7 @@
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                aria-expanded="false">{{auth()->user()->name}}</a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="{{route('user.dashboard')}}">Profile</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('user.profile')}}">Profile</a></li>
                                 @if(auth()->user()->isAdmin())
                                     <li class="nav-item"><a class="nav-link" href="{{route('admin.dashboard')}}">Admin Dashboard</a></li>
                                 @endif

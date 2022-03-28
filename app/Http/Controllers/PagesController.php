@@ -88,12 +88,5 @@ class PagesController extends Controller
         return view('auth_users.profile');
     }
 
-//    public function checkCoupon($coupon_code){
-//        $coupon=Coupon::where('code', $coupon_code)->where('valid_from', '<=', Carbon::now())->where('valid_until', '>=', Carbon::now())->first();
-//        if($coupon){
-//            return response()->json(['success'=>$coupon]);
-//        }else{
-//            return response()->json(['error'=>'This coupon is not valid']);
-//        }
-//    }
+
 }

@@ -11,7 +11,7 @@ use App\Http\Controllers\AdminCouponController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminSettingController;
 
-use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -43,10 +43,17 @@ Route::get('/check-coupon/{code}', [CartController::class, 'checkCouponAndReturn
 Route::post('/create-order', [CheckoutController::class, 'createOrder'])->name('create.order');
 Route::get('/thank-you', [CheckoutController::class, 'thankYou'])->name('thank_you');
 Route::middleware(['auth', 'verified'])->group(function(){
-    Route::get('dashboard', [UserDashboardController::class, 'profile'])->name('user.dashboard');
+    Route::get('user/profile', [ProfileController::class, 'profile'])->name('user.profile');
+    Route::get('user/edit-profile', [ProfileController::class, 'editProfile'])->name('user.edit.profile');
+    Route::post('user/update-profile', [ProfileController::class, 'updateProfile'])->name('user.update.profile');
+    Route::post('user/delete-profile', [ProfileController::class, 'deleteProfile'])->name('user.delete.profile');
+    Route::get('user/orders', [ProfileController::class, 'orders'])->name('user.orders');
+    Route::get('user/orders/{id}', [ProfileController::class, 'ordersShow'])->name('user.orders.show');
+
 });
 
-Route::prefix('admin')->middleware(['admins'])->group(function(){
+
+Route::prefix('admin')->middleware(['any.admins'])->group(function(){
     Route::get('dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
     //EMPLOYEES
     Route::get('employees', [AdminEmployeesController::class, 'index'])->name('admin.employees');

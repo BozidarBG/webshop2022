@@ -171,8 +171,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
             </div>
 
-
+            @if(auth()->user()->isAdmin())
             @include('partials.admin_left_sidebar')
+            @else
+            @include('partials.user_left_sidebar')
+            @endif
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->

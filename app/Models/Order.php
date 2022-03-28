@@ -26,6 +26,7 @@ class Order extends Model
     }
 
     public function getCouponValue(){
+
         if($this->coupon_value){
             $obj=json_decode($this->coupon_value);
             return "type: $obj->type, value: $obj->value, cart value: $obj->cart_value";

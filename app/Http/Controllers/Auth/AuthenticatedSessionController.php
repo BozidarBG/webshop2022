@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
+    public const HOME = '/user/profile';
+
     /**
      * Display the login view.
      *
@@ -32,7 +34,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        //return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended(self::HOME);
+
     }
 
     /**

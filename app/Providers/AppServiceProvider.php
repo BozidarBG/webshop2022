@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use View;
 use Cache;
-use Setting;
+use App\Models\Setting;
 
 class AppServiceProvider extends ServiceProvider
 {

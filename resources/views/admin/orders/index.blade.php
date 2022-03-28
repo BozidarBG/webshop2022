@@ -97,7 +97,7 @@
                             <td>{{formatPrice($order->total)}}</td>
                             <td>{{$order->payment_type}}</td>
                             <td>{{$order->payment_status}}</td>
-                            <td>{{$order->paid_on ? $order->paid_on->format('d.m.Y H:i') : 'Not paid'}}</td>
+                            <td>{{$order->paid_on ? formatDate($order->paid_on) : 'Not paid'}}</td>
                             <td>{{$order->shipped_on ? $order->shipped_on->format('d.m.Y H:i') : 'Not shipped'}}</td>
                             <td>{{$order->shipping_status}}</td>
                             <td>{{$order->contacted_by ? $order->contacted_by->user->name : 'Not yet'}}</td>

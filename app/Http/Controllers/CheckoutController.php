@@ -168,7 +168,7 @@ class CheckoutController extends CartController
         $order->user_id=auth()->check() ? auth()->id() : 0; //unauthenticated users will have 0 id
         $order->subtotal=$this->order_subtotal;
         $order->subtotal_with_coupon=$this->order_subtotal_with_coupon;
-        $order->coupon_value=json_encode($this->coupon);
+        $order->coupon_value=$this->coupon? json_encode($this->coupon) : null;
         $order->shipping_fee=$this->order_shipping_fee;
         $order->total=$this->order_total;
         $order->payment_type=$payment_type;

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdministratorMiddleware
+class WarehouseManagerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class AdministratorMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->check() && auth()->user()->isAdministrator()){
+        if(auth()->check() && auth()->user()->isWarehouseManager()){
             return $next($request);
         }
         return redirect()->route('home');

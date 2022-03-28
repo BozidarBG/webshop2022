@@ -45,35 +45,49 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     public function roles(){
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'roles_users');
     }
     //all admins (master, administrator and moderator) will be here
     public function isAdmin(){
         $admins=Cache::rememberForever('admin_ids', function () {
-            return DB::table('role_user')->get()->pluck('user_id')->toArray();
+            return DB::table('roles_users')->get()->pluck('user_id')->toArray();
         });
         return in_array($this->id, $admins);
     }
 
     public function isMasterAdministrator(){
         $masters=Cache::rememberForever('masters_ids', function () {
-            return DB::table('role_user')->where('role_id', 1)->get()->pluck('user_id')->toArray();
+            return DB::table('roles_users')->where('role_id', 1)->get()->pluck('user_id')->toArray();
         });
         return in_array($this->id, $masters);
     }
 
-    public function isAdministrator(){
-        $administrators=Cache::rememberForever('administrators_ids', function () {
-            return DB::table('role_user')->where('role_id', 2)->get()->pluck('user_id')->toArray();
+    public function isOrdersAdministrator(){
+        $orders_administrators=Cache::rememberForever('orders_administrators_ids', function () {
+            return DB::table('roles_users')->where('role_id', 2)->get()->pluck('user_id')->toArray();
         });
-        return in_array($this->id, $administrators);
+        return in_array($this->id, $orders_administrators);
     }
 
-    public function isModerator(){
-        $moderators=Cache::rememberForever('moderators_ids', function () {
-            return DB::table('role_user')->where('role_id', 3)->get()->pluck('user_id')->toArray();
+    public function isProductModerator(){
+        $product_moderators=Cache::rememberForever('product_moderators_ids', function () {
+            return DB::table('roles_users')->where('role_id', 3)->get()->pluck('user_id')->toArray();
         });
-        return in_array($this->id, $moderators);
+        return in_array($this->id, $product_moderators);
+    }
+
+    public function isProductManager(){
+        $product_managers=Cache::rememberForever('product_managers_ids', function () {
+            return DB::table('roles_users')->where('role_id', 4)->get()->pluck('user_id')->toArray();
+        });
+        return in_array($this->id, $product_managers);
+    }
+
+    public function isWarehouseManager(){
+        $warehouse_managers=Cache::rememberForever('warehouse_managers_ids', function () {
+            return DB::table('roles_users')->where('role_id', 5)->get()->pluck('user_id')->toArray();
+        });
+        return in_array($this->id, $warehouse_managers);
     }
 
 }

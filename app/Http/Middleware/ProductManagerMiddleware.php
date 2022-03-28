@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdminMiddleware
+class ProductManagerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -14,13 +14,11 @@ class AdminMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    //all workers of app will pass this middleware
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->check() && auth()->user()->isAdmin()){
+        if(auth()->check() && auth()->user()->isProductManager()){
             return $next($request);
         }
         return redirect()->route('home');
-
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'create employee')
+@section('title', 'all employees')
 
 
 @section('content')
