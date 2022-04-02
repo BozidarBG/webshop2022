@@ -29,12 +29,20 @@ class AdminSettingController extends Controller
     public function update(Request $request){
         $this->validate($request, [
             'app_name'=>'required|max:255',
+            'company_name'=>'required|max:255',
             'about_us'=>'required',
             'address'=>'required|max:255',
+            'zip'=>'required|max:10',
+            'city'=>'required|max:20',
+            'country'=>'required|max:20',
             'phone1'=>'required|max:20',
             'phone2'=>'max:20',
             'phone3'=>'max:20',
             'email'=>'required|email|max:50',
+            'vat'=>'required|max:10',
+            'registration_no'=>'required|max:10',
+            'person_in_charge'=>'required|max:25',
+            'person_title'=>'required|max:30',
             'website'=>'required|max:255',
             'author'=>'required|max:255',
             'description'=>'required|max:255',
@@ -46,7 +54,6 @@ class AdminSettingController extends Controller
         ]);
 
         $settings=$this->settings;
-
 
         if($request->has('favicon')){
             //delete old image
@@ -79,12 +86,20 @@ class AdminSettingController extends Controller
         }
 
         $settings->app_name=$request->app_name;
+        $settings->company_name=$request->company_name;
         $settings->about_us=$request->about_us;
         $settings->address=$request->address;
+        $settings->zip=$request->zip;
+        $settings->city=$request->city;
+        $settings->country=$request->country;
         $settings->phone1=$request->phone1;
         $settings->phone2=$request->phone2;
         $settings->phone3=$request->phone3;
         $settings->email=$request->email;
+        $settings->vat=$request->vat;
+        $settings->registration_no=$request->registration_no;
+        $settings->person_in_charge=$request->person_in_charge;
+        $settings->person_title=$request->person_title;
         $settings->website=$request->website;
         $settings->author=$request->author;
         $settings->description=$request->description;

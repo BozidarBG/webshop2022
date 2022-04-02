@@ -9,6 +9,8 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable=['payment_status', 'paid_on', 'shipping_status', 'shipped_on', 'admin_comment', 'contacted_by'];
+
     public function items(){
         return $this->hasMany(OrderItem::class);
     }
@@ -18,8 +20,9 @@ class Order extends Model
     }
 
     public function user(){
-        if($this->user_id==0){
-            return $this->belongsTo(Shipping::class);
+
+        if((int)$this->user_id===0){
+            return $this->hasOne(Shipping::class, 'order_id');
         }else{
             return $this->belongsTo(User::class);
         }
@@ -34,6 +37,10 @@ class Order extends Model
             return 0;
         }
 
+    }
+
+    public function contactedBy(){
+        return $this->belongsTo(User::class, 'contacted_by');
     }
 
 

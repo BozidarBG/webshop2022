@@ -5,8 +5,11 @@
 @section('content')
     <div class="col-12">
         <div class="card">
-            <div class="card-header bg-cyan">
-                <h3>Order no. {{$order->id}}</h3>
+            <div class="card-header bg-cyan ">
+                <h3 class="float-left">Order no. {{$order->id}}</h3>
+                @if($order->pdf)
+                <a target="_blank" href="{{route('user.download.file', ['filename'=>$order->pdf])}}" class="btn btn-success float-right">Download Pdf</a>
+                @endif
             </div>
             <div class="card-body">
                 <div class="row">

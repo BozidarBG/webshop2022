@@ -49,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::post('user/delete-profile', [ProfileController::class, 'deleteProfile'])->name('user.delete.profile');
     Route::get('user/orders', [ProfileController::class, 'orders'])->name('user.orders');
     Route::get('user/orders/{id}', [ProfileController::class, 'ordersShow'])->name('user.orders.show');
+    Route::get('public/pdfs/{filename}', [ProfileController::class, 'downloadFile'])->name('user.download.file');
 
 });
 
@@ -108,6 +109,7 @@ Route::prefix('admin')->middleware(['any.admins'])->group(function(){
     //ORDERS AND CART ITEMS
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders');
     Route::get('/orders-show/{order}', [AdminOrderController::class, 'edit'])->name('admin.orders.edit');
-
+    Route::post('/orders-update/{order}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
+    Route::get('/get-chart-data', [AdminDashboardController::class, 'getChartData']);
 
 });

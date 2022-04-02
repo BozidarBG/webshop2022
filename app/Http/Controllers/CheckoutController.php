@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderCreated;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Shipping;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Stripe;
+use Illuminate\Support\Str;
 
 class CheckoutController extends CartController
 {
+    protected $pdf_filename;
+    protected $order;
+    protected $shipping;
+    protected $order_items=[];
 
 //checkout page where user will confirm his order. while he is thinking, something can change so we check once again
     //everything that was checked before he came to this page
@@ -34,7 +43,7 @@ class CheckoutController extends CartController
     }
 
     public function createOrder(Request $request){
-        info(json_encode($request->all()));
+        //info(json_encode($request->all()));
         $validator=Validator::make($request->all(), [
             //$this->validate($request, [
             'name'=>'required|max:250',
@@ -89,13 +98,15 @@ class CheckoutController extends CartController
         $this->calculateShippingFee();
         $this->calculateTotal();
 
+
+        $this->setPDFFileName($request->name);
+
         DB::beginTransaction();
 
         if($request->payment_type==="cod"){
             $this->payWithCOD($request);
         }else if($request->payment_type==="card"){
             $result=$this->payWithCard($request);
-            //Log::channel('stripe')->info('result: '.json_encode($result));
             if(is_array($result) && array_key_exists('status', $result) && $result['status']=='succeeded'){
                 $order_id=$this->populateOrderSTable('card', 'paid', Carbon::now());
                 $this->populateShippingsTable($request, $order_id);
@@ -123,9 +134,28 @@ class CheckoutController extends CartController
 
         }
         DB::commit();
+
+        //create pdf order confirmation (filename already set)
+
+        $pdf = PDF::loadView('/templates/order_confirmation', [
+                'order'=>$this->order,
+                'shipping'=>$this->shipping,
+                'order_items'=>$this->order_items,
+                'settings'=>cache()->get('settings')
+            ])
+            ->save('pdfs/'.$this->pdf_filename);
+        //send email with order confirmation
+        Mail::to($this->shipping)->queue(new OrderCreated($this->shipping->name, $this->pdf_filename));
+
         session(['order_created'=> 'Ok']);
         $request->items=null;
         return response()->json(['success'=>'ok', 'location'=>'/thank-you']);
+    }
+
+    protected function setPDFFileName($name){
+        $date=Carbon::now();
+        $replaced=Str::replace(' ', '_', $name);
+        $this->pdf_filename=$date->format('d_m_Y_h_i').'_'.$replaced.'.pdf';
     }
 
     protected function payWithCOD($request){
@@ -144,6 +174,7 @@ class CheckoutController extends CartController
             $item->selling_price=$product->selling_price;
             $item->qty=$product->qty;
             $item->save();
+            $this->order_items[]=$item;
             $this->decreaseQtyInProductsTable($product->id, $product->qty);
         }
     }
@@ -161,6 +192,7 @@ class CheckoutController extends CartController
         $shipping->contact_person=$request->contact_person ?? $request->name;
         $shipping->comment=$request->comment;
         $shipping->save();
+        $this->shipping=$shipping;
     }
 
     protected function populateOrderSTable($payment_type, $payment_status, $paid_on=null){
@@ -174,7 +206,9 @@ class CheckoutController extends CartController
         $order->payment_type=$payment_type;
         $order->payment_status=$payment_status;
         $order->paid_on=$paid_on;
+        $order->pdf=$this->pdf_filename;
         $order->save();
+        $this->order=$order;
         return $order->id;
     }
 

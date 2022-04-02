@@ -53,7 +53,9 @@
 @endsection
 
 @section('scripts')
-
+    <script>
+        new BaseCart();
+    </script>
 @endsection
 
 

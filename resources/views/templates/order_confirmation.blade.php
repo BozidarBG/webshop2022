@@ -5,36 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-{{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">--}}
     <style>
         *{
             margin:0;
             padding:0;
             box-sizing: border-box;
         }
+        body{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
         p{
             font-size: 11px;
             margin-bottom: 2px !important;
+            line-height: 20px;
         }
         .page{
             width: 21cm !important;
-            height: 29.7cm !important;
+            height: 29.7cm ;
             overflow: hidden !important;
 
         }
+        .container{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
         .inner_border{
             width: 20cm !important;
-            height: 28.7cm !important;
+            height: 28.7cm;
+            overflow: hidden;
             margin: .5cm auto;
             border: 1px solid lightgray;
         }
-        .img{
-            height: 2cm;
-        }
-        table{
+        .row{
+            width: 100%;
 
         }
+        .img{
+            margin-top: 20px;
+            height: 30px;
+        }
+
         .tr_bordered td, .tr_bordered th{
             font-size: 11px;
             border: 1px solid lightgray;
@@ -48,7 +58,8 @@
             width: 5%;
         }
         .w_name{
-            width: 44%;
+            width: 40%;
+            text-align: left;
         }
         .w_code{
             width: 17%;
@@ -63,8 +74,8 @@
             text-align: center;
         }
         .w_total{
-            width: 12%;
-            text-align: end;
+            width: 16%;
+            text-align: right;
         }
         .totals{
             font-size: 11px;
@@ -82,7 +93,68 @@
         .font_bigger{
             font-size: 13px;
         }
+        .mt-4{
+            margin-top: 16px;
+        }
+        .mt-5{
+            margin-top: 20px;
+        }
+        .mb-4{
+            margin-bottom: 16px;
+        }
+        .col-12{
+            width: 100%;
+        }
+        .col-4{
+            width: 33%;
+            float: left;
+        }
 
+        .col-9{
+            width: 75%;
+            float: left;
+        }
+        .col-3{
+            width: 25%;
+            float: left;
+        }
+        .col-3:after, .col-4:after, .col-9:after, .col-12:after{
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .pl-3{
+            padding-left: 12px;
+        }
+        .pr-3{
+            padding-right: 12px;
+        }
+        .pb-5{
+            padding-bottom: 20px;
+        }
+        .font-weight-bold{
+            font-weight: bold;
+        }
+        .table-sm{
+            padding:10px;
+        }
+        .text-center{
+            text-align: center;
+        }
+        td, th{
+            padding:5px;
+        }
+        .float-right{
+            float: right;
+        }
+        .clearfix {
+            overflow: auto;
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
 
     </style>
 </head>
@@ -91,7 +163,7 @@
     <div class="container inner_border">
         <div class="row">
             <div class="col-12 pt-4 pl-3 m-0">
-                <img class="img" src="{{asset('app_images/logo.png')}}" alt="logo">
+                <img class="img" height="34px" src="{{asset('app_images/logo.png')}}" alt="logo">
             </div>
         </div>
         <div class="row mt-4 ">
@@ -102,23 +174,23 @@
                 <p>Country: {{$settings->country}}</p>
                 <p>VAT: {{$settings->vat}}</p>
                 <p>Registration no.: {{$settings->registration_no}}</p>
-                <p>Phone: {{$settings->phone1}}}</p>
+                <p>Phone: {{$settings->phone1}}</p>
                 <p>Phone: {{$settings->phone2}}</p>
                 <p>Email: {{$settings->email}}</p>
             </div>
             <div class="col-4 pb-5">
                 <h6>Customer:</h6>
-                <p>Name: {{$order->name}}</p>
-                <p>Contact: {{$order->shipping->contact_person}}</p>
-                <p>Address:  {{$order->shipping->address}}</p>
-                <p>City:  {{$order->shipping->zip}} {{$order->shipping->address}}</p>
-                <p>Phone:  {{$order->shipping->phone1}}</p>
-                <p>Phone:  {{$order->shipping->phone2}}</p>
-                <p>Email:  {{$order->shipping->email}}</p>
+                <p>Name: {{$shipping->name}}</p>
+                <p>Contact: {{$shipping->contact_person}}</p>
+                <p>Address:  {{$shipping->address}}</p>
+                <p>City:  {{$shipping->zip}} {{$shipping->city}}</p>
+                <p>Phone:  {{$shipping->phone1}}</p>
+                <p>Phone:  {{$shipping->phone2}}</p>
+                <p>Email:  {{$shipping->email}}</p>
             </div>
             <div class="col-4 pb-5">
-                <h5 class="mb-4">Order Confirmation</h5>
-                <h6>No.  {{$order->order_no}}/{{date('Y')}}</h6>
+                <h3 class="mb-4">Order Confirmation</h3>
+                <h6>No.  {{$order->id}}/{{date('Y')}}</h6>
                 <p>Date:  {{date('d.m.Y')}}</p>
                 @if($order->paid_on)
                 <p class="font-weight-bold">Order is paid on: {{formatDate($order->paid_on)}}</p>
@@ -126,6 +198,7 @@
                 <p class="font-weight-bold">Order should be paid with cash to courier</p>
                 @endif
             </div>
+            <div class="clearfix"></div>
         </div>
         <div class="row pl-3 pr-3">
             <table class="m_table table-sm">
@@ -141,14 +214,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($order->items as $item)
+                @foreach($order_items as $item)
                 <tr class="tr_bordered">
-                    <td class="w_id">{{$loop->index + 1}}</td>
+                    <td class="w_id">{{$loop->index + 1}}.</td>
                     <td class="w_name">{{$item->name}}</td>
                     <td class="w_code">{{$item->acc_code}}</td>
                     <td class="w_price">{{formatPrice($item->selling_price)}}</td>
                     <td class="w_qty">{{$item->qty}}</td>
-                    <td class="w_total">{{formatPrice($selling_price * $item->qty)}}</td>
+                    <td class="w_total">{{formatPrice($item->selling_price * $item->qty)}}</td>
                 </tr>
                 @endforeach
 
@@ -156,25 +229,25 @@
                 <tr class="totals">
                     <td colspan="3"></td>
                     <td class="sub_name" colspan="2">Subtotal:</td>
-                    <td class="sub_value"> {{$order->subtotal}}</td>
+                    <td class="sub_value"> {{formatPrice($order->subtotal)}}</td>
                 </tr>
                 @if($order->subtotal_with_coupon)
                 <tr class="totals">
                     <td colspan="3"></td>
                     <td class="sub_name" colspan="2">Subtotal with coupon:</td>
-                    <td class="sub_value"> {{$order->subtotal_with_coupon}}</td>
+                    <td class="sub_value"> {{formatPrice($order->subtotal_with_coupon)}}</td>
                 </tr>
                 @endif
                 <tr class="totals">
                     <td colspan="3"></td>
                     <td class="sub_name" colspan="2">Shipping fee:</td>
-                    <td class="sub_value"> {{$order->shipping_fee}}</td>
+                    <td class="sub_value"> {{formatPrice($order->shipping_fee)}}</td>
                 </tr>
 
                 <tr class="totals">
                     <td colspan="3"></td>
                     <td class="sub_name font-weight-bold" colspan="2">Total Payment Value:</td>
-                    <td class="sub_value font-weight-bold" > {{$order->total}}</td>
+                    <td class="sub_value font-weight-bold" > {{formatPrice($order->total)}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -184,10 +257,10 @@
                 <p>This document is valid without stamp and signature</p>
             </div>
         </div>
-        @if($order->shipping->comment)
+        @if($shipping->comment)
         <div class="row mt-5">
             <div class="col-12 ">
-                <p>Note in the order: {{$order->shipping->comment}}</p>
+                <p>Note in the order: {{$shipping->comment}}</p>
             </div>
         </div>
         @endif
@@ -195,7 +268,7 @@
             <div class="col-9">
 
             </div>
-            <div class="col-3 text-center">
+            <div class="col-3 text-center float-right pl-3">
                 <p class="font_bigger">{{$settings->person_in_charge}}</p>
                 <p class="font_bigger">{{$settings->person_title}}</p>
             </div>

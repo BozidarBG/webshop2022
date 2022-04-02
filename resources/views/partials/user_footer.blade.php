@@ -22,7 +22,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
                     <div class="single-footer-widget tp_widgets">
                         <h4 class="footer_title">Contact Us</h4>
@@ -32,7 +32,8 @@
                                 Head Office
                             </p>
                             <p>{{$settings->address}}</p>
-
+                            <p>{{$settings->zip}} {{$settings->city}}</p>
+                            <p>{{$settings->country}}</p>
                             <p class="sm-head">
                                 <span class="fa fa-phone"></span>
                                 Phone Number

@@ -18,7 +18,6 @@ class AdminEmployeesController extends Controller
     private $employees;
 
     public function __construct(){
-        info(Cache::get('employees'));
         $this->employees=Cache::rememberForever('employees', function(){
             $ids=DB::table('roles_users')->distinct('user_id')->pluck('user_id');
             return User::with('roles')->whereIn('id', $ids)->get();
@@ -31,9 +30,6 @@ class AdminEmployeesController extends Controller
     }
 
     public function index(){
-        info(json_encode($this->roles));
-        info(json_encode($this->employees));
-
         return view('admin.employees.index', [
             'employees'=>$this->employees,
             'roles'=>$this->roles,
@@ -64,7 +60,7 @@ class AdminEmployeesController extends Controller
         $user->save();
         $user->roles()->attach($request->roles);
 
-        Cache::forget('employees');
+        $this->clearEmployeesCache();
         session()->flash('success', 'Employee created!');
         return redirect()->route('admin.employees');
 
@@ -99,8 +95,15 @@ class AdminEmployeesController extends Controller
         }
 
 
-        Cache::forget('employees');
+        $this->clearEmployeesCache();
         return redirect()->route('admin.employees');
 
+    }
+
+    protected function clearEmployeesCache(){
+        $caches=['admin_ids', 'masters_ids', ' orders_administrators', 'product_moderators_ids', 'product_managers_ids', 'warehouse_managers_ids'];
+        foreach ($caches as $cache){
+            Cache::forget($cache);
+        }
     }
 }

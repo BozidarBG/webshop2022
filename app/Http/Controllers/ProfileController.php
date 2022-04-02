@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -37,5 +38,17 @@ class ProfileController extends Controller
             return view('auth_users.order', ['page'=>'order no. '.$id, 'order'=>$order]);
         }
         return redirect()->route('user.orders');
+    }
+
+    public function downloadFile($filename){
+        $file=public_path()."/pdfs/".$filename;
+        if(file_exists($file)){
+            $headers=['Content-Type: application/pdf'];
+            return response()->download($file, $filename, $headers);
+        }else{
+            session()->flash('error', 'Order confirmation PDF not found');
+            return redirect()->route('user.orders');
+        }
+
     }
 }

@@ -25,6 +25,7 @@ class CreateSettingsTable extends Migration
             $table->string('phone1');
             $table->string('phone2')->nullable();
             $table->string('phone3')->nullable();
+            $table->string('email');
             $table->string('vat');
             $table->string('registration_no');
             $table->string('person_in_charge');

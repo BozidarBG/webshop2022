@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -21,5 +22,9 @@ class DatabaseSeeder extends Seeder
         //$this->call([CategorySeeder::class]);
         //\App\Models\Product::factory(800)->create();
         //\App\Models\Contact::factory(30)->create();
+        \DB::table('orders')->truncate();
+        \DB::table('order_items')->truncate();
+        \DB::table('shippings')->truncate();
+        $this->call(OrdersSeeder::class);
     }
 }

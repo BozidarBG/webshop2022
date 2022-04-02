@@ -118,6 +118,11 @@ return [
             'path' => storage_path('logs/stripe.log'),
             'level' => 'info',
         ],
+        'orders_update' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/orders_update.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

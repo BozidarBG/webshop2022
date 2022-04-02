@@ -1,65 +1,22 @@
 <!-- Sidebar Menu -->
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <!-- Add icons to the links using the .nav-icon class
-             with font-awesome or any other icon font library -->
         <li class="nav-item">
-            <a href="#" class="nav-link {{ (request()->is('admin/orders*')) ? 'active' : '' }}">
+            <a href="{{route('admin.dashboard')}}" class="nav-link {{ (request()->is('admin/dashboard*')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>Dashboard</span>
+                </p>
+            </a>
+        </li>
+        @if(auth()->user()->isOrdersAdministrator() || auth()->user()->isWarehouseManager())
+        <li class="nav-item">
+            <a href="{{route('admin.orders')}}" class="nav-link {{ (request()->is('admin/orders*')) ? 'active' : '' }}">
                 <i class="nav-icon far fa-newspaper"></i>
-                <p>
-                    Orders
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-
-            <ul class="nav nav-treeview" style="display: none;">
-                <li class="nav-item">
-                    <a href="{{route('admin.orders')}}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>All Orders</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>nešto</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a href="{{route('admin.categories')}}" class="nav-link {{ (request()->is('admin/categories*')) ? 'active' : '' }}">
-                <i class="nav-icon fab fa-audible"></i>
-                <p>Categories<span class="right badge badge-danger">New</span>
+                <p>Orders</span>
                 </p>
             </a>
         </li>
-
-
-        <li class="nav-item">
-            <a href="#" class="nav-link {{ (request()->is('admin/employees*')) ? 'active' : '' }}">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                    Employees
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-
-            <ul class="nav nav-treeview" style="display: none;">
-                <li class="nav-item">
-                    <a href="{{route('admin.employees')}}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>All Employees</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('admin.employees.create')}}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Create Employee</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
+        @endif
 
         <li class="nav-item">
             <a href="#" class="nav-link {{ (request()->is('admin/customers*')) ? 'active' : '' }}">
@@ -85,7 +42,6 @@
                 </li>
             </ul>
         </li>
-
 
         <li class="nav-item">
             <a href="#" class="nav-link {{ (request()->is('admin/products*')) ? 'active' : '' }}">
@@ -131,7 +87,6 @@
             </ul>
         </li>
 
-
         <li class="nav-item">
             <a href="#" class="nav-link {{ (request()->is('admin/contact-us*')) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-question"></i>
@@ -155,6 +110,41 @@
                     </a>
                 </li>
             </ul>
+        </li>
+
+        @if(auth()->user()->isMasterAdministrator())
+
+        <li class="nav-item">
+            <a href="#" class="nav-link {{ (request()->is('admin/employees*')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                    Employees
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+
+            <ul class="nav nav-treeview" style="display: none;">
+                <li class="nav-item">
+                    <a href="{{route('admin.employees')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>All Employees</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.employees.create')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Create Employee</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="{{route('admin.categories')}}" class="nav-link {{ (request()->is('admin/categories*')) ? 'active' : '' }}">
+                <i class="nav-icon fab fa-audible"></i>
+                <p>Categories
+                </p>
+            </a>
         </li>
 
         <li class="nav-item">
@@ -188,6 +178,7 @@
                 <p>Settings</p>
             </a>
         </li>
+            @endif
 
     </ul>
 </nav>

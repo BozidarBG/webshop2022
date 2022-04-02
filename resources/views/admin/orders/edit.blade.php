@@ -10,6 +10,7 @@
 @section('content')
     @include('partials.success_msg')
     @include('partials.errors_in_div')
+    @include('partials.confirmation_modal')
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-cyan">
@@ -67,6 +68,112 @@
                         </tbody>
                     </table>
 
+                </div>
+            </div>
+        </div>
+        <div class="card p-3">
+            <div class="row">
+                @if(auth()->user()->isOrdersAdministrator())
+                <div class="col-3 px-5">
+                    <h3>Change payment status</h3>
+                    <h6>Payment status before change:</h6>
+                    <h6 class="text-bold">{{$order->payment_status}}</h6>
+                    <form action="{{route('admin.orders.update',$order)}}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <select name="payment_status" class="form-control">
+                                <option value="pending" {{$order->payment_status=="pending" ? 'selected' : null}}>Pending</option>
+                                <option value="paid" {{$order->payment_status=="paid" ? 'selected' : null}}>Paid</option>
+                                <option value="declined" {{$order->payment_status=="declined" ? 'selected' : null}}>Declined</option>
+                                <option value="refunded" {{$order->payment_status=="refunded" ? 'selected' : null}}>Refunded</option>
+                            </select>
+                        </div>
+                        <input type="submit" value="Update" class="btn btn-outline-warning">
+                    </form>
+                </div>
+
+
+                <div class="col-3 px-5">
+                    <h3>Change payment date</h3>
+                    <h6>Payment date before change:</h6>
+                    <h6 class="text-bold">{{$order->paid_on ? formatDate($order->paid_on) : 'Not Paid'}}</h6>
+
+                    <form action="{{route('admin.orders.update', $order)}}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <input type="date" class="form-control" name="paid_on">
+                        </div>
+                        <input type="submit" value="Update" class="btn btn-outline-success">
+                    </form>
+                </div>
+
+                <div class="col-3 px-5">
+                    <h3>Change shipping status</h3>
+                    <h6>Shipping status before change:</h6>
+                    <h6 class="text-bold">{{\Illuminate\Support\Str::replace('_', ' ',$order->shipping_status)}}</h6>
+                    <form action="{{route('admin.orders.update', $order)}}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <select name="shipping_status" class="form-control">
+                                <option value="pending" {{$order->shipping_status=="pending" ? 'selected' : null}}>Pending</option>
+                                <option value="in_preparation" {{$order->shipping_status=="in_preparation" ? 'selected' : null}}>In preparation</option>
+                                <option value="canceled" {{$order->shipping_status=="canceled" ? 'selected' : null}}>Canceled</option>
+                            </select>
+                        </div>
+                        <input type="submit" value="Update" class="btn btn-outline-primary">
+                    </form>
+                </div>
+                @endif
+                @if(in_array($order->shipping_status, ['in_preparation', 'waiting_for_courier', 'in_transit', 'returned_by_courier']))
+                    @if(auth()->user()->isWarehouseManager())
+                    <div class="col-3 px-5">
+                        <h3>Change shipping status</h3>
+                        <h6>Shipping status before change:</h6>
+                        <h6 class="text-bold">{{\Illuminate\Support\Str::replace('_', ' ',$order->shipping_status)}}</h6>
+                        <form action="{{route('admin.orders.update', $order)}}" method="post">
+                            @csrf
+                            <div class="form-group">
+                                <select name="shipping_status" class="form-control">
+                                    <option value="in_preparation" {{$order->shipping_status=="in_preparation" ? 'selected' : null}}>In preparation</option>
+                                    <option value="waiting_for_courier" {{$order->shipping_status=="waiting_for_courier" ? 'selected' : null}}>Waiting for Courier</option>
+                                    <option value="in_transit" {{$order->shipping_status=="in_transit" ? 'selected' : null}}>In transit to customer</option>
+                                    <option value="returned_by_courier" {{$order->shipping_status=="returned_by_courier" ? 'selected' : null}}>Returned by courier</option>
+                                </select>
+                            </div>
+                            <input type="submit" value="Update" class="btn btn-outline-primary">
+                        </form>
+                    </div>
+
+
+                    <div class="col-3 px-5">
+                        <h3>Change shipping date</h3>
+                        <h6>Shipping date before change:</h6>
+                        <h6 class="text-bold">{{$order->shipped_on ? formatDate($order->shipped_on) : 'Not Shipped'}}</h6>
+                        <form action="{{route('admin.orders.update', $order)}}" method="post">
+                            @csrf
+                            <div class="form-group">
+                                <input type="date" class="form-control" name="shipped_on">
+                            </div>
+                            <input type="submit" value="Update" class="btn btn-outline-info">
+                        </form>
+                    </div>
+
+                @endif
+            @endif
+            </div>
+        </div>
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Administrator's comments about this order</h3>
+                    <p>{!! $order->admin_comment !!}</p>
+                    <form action="{{route('admin.orders.update', $order)}}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <textarea name="admin_comment" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                        <button class="btn btn-dark" role="button">Update</button>
+                    </form>
                 </div>
             </div>
         </div>

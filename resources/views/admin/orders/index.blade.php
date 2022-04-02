@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'title')
+@section('title', 'orders')
 @section('styles')
     <style>
 
@@ -98,9 +98,9 @@
                             <td>{{$order->payment_type}}</td>
                             <td>{{$order->payment_status}}</td>
                             <td>{{$order->paid_on ? formatDate($order->paid_on) : 'Not paid'}}</td>
-                            <td>{{$order->shipped_on ? $order->shipped_on->format('d.m.Y H:i') : 'Not shipped'}}</td>
+                            <td>{{$order->shipped_on ? formatDate($order->shipped_on): 'Not shipped'}}</td>
                             <td>{{$order->shipping_status}}</td>
-                            <td>{{$order->contacted_by ? $order->contacted_by->user->name : 'Not yet'}}</td>
+                            <td>{{$order->contacted_by ? $order->contactedBy->name : 'Not yet'}}</td>
                             <td>{{formatDate($order->created_at)}}</td>
                             <th><a href="{{route('admin.orders.edit', $order)}}" class="btn btn-outline-primary">Go To</a></th>
                         </tr>

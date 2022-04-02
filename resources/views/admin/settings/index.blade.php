@@ -21,13 +21,33 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
-                                <label>Application name</label>
-                                <input type="text" name="app_name" class="form-control @error('app_name') is-invalid @enderror" value="{{$settings->app_name}}" disabled>
-                                @error('app_name')
+                                <label>Company Name</label>
+                                <input type="text" name="company_name" class="form-control @error('company_name') is-invalid @enderror" value="{{$settings->company_name}}" disabled>
+                                @error('company_name')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label>ZIP</label>
+                                <input type="text" name="zip" class="form-control @error('zip') is-invalid @enderror" value="{{$settings->zip}}" disabled>
+                                @error('zip')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" name="city" class="form-control @error('city') is-invalid @enderror" value="{{$settings->city}}" disabled>
+                                @error('city')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label>Address</label>
@@ -39,9 +59,9 @@
                         </div>
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{$settings->email}}" disabled>
-                                @error('email')
+                                <label>Country</label>
+                                <input type="text" name="country" class="form-control @error('country') is-invalid @enderror" value="{{$settings->country}}" disabled>
+                                @error('country')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -70,13 +90,72 @@
                             <div class="form-group">
                                 <label>Phone 3</label>
                                 <input type="text" name="phone3" class="form-control @error('phone3') is-invalid @enderror" value="{{$settings->phone3}}" disabled>
-                                @error('phone')
+                                @error('phone3')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                     </div>
                     <div class="row">
+
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label>VAT</label>
+                                <input type="text" name="vat" class="form-control @error('vat') is-invalid @enderror" value="{{$settings->vat}}" disabled>
+                                @error('vat')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label>Registration Number</label>
+                                <input type="text" name="registration_no" class="form-control @error('registration_no') is-invalid @enderror" value="{{$settings->registration_no}}" disabled>
+                                @error('registration_no')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label>Person In Charge</label>
+                                <input type="text" name="person_in_charge" class="form-control @error('person_in_charge') is-invalid @enderror" value="{{$settings->person_in_charge}}" disabled>
+                                @error('person_in_charge')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label>Person's in charge title</label>
+                                <input type="text" name="person_title" class="form-control @error('person_title') is-invalid @enderror" value="{{$settings->person_title}}" disabled>
+                                @error('person_title')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label>Application name</label>
+                                <input type="text" name="app_name" class="form-control @error('app_name') is-invalid @enderror" value="{{$settings->app_name}}" disabled>
+                                @error('app_name')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{$settings->email}}" disabled>
+                                @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label>Website address</label>
@@ -86,9 +165,11 @@
                                 @enderror
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
-                                <label>Author</label>
+                                <label>Application Author</label>
                                 <input type="text" name="author" class="form-control @error('author') is-invalid @enderror" value="{{$settings->author}}" disabled>
                                 @error('author')
                                 <div class="text-danger">{{ $message }}</div>
@@ -104,7 +185,6 @@
                                 @enderror
                             </div>
                         </div>
-
                     </div>
                     <div class="row">
                             <div class="col-md-4 col-sm-12">
@@ -125,7 +205,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="col-12">
