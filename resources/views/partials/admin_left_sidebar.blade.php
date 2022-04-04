@@ -178,6 +178,12 @@
                 <p>Settings</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{route('admin.logs')}}" class="nav-link {{ (request()->is('admin/logs')) ? 'active' : '' }}">
+                <i class="nav-icon far fa-address-card"></i>
+                <p>Logs</p>
+            </a>
+        </li>
             @endif
 
     </ul>

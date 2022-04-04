@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-
+@include('partials.success_msg')
     <main class="site-main">
 
         <!--================ Hero banner start =================-->

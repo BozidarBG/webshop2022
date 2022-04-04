@@ -27,14 +27,14 @@
                     <form class="row login_form" action="{{route('register.store')}}" id="register_form" method="POST">
                         @csrf
                         <div class="col-md-12 form-group ">
-                            <input type="text" class="form-control @error('name')alert alert-danger @enderror" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'" required>
+                            <input type="text" class="form-control @error('name')alert alert-danger @enderror" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'" required value="{{old('name')}}">
                             @error('name')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control @error('email')alert alert-danger @enderror" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" required>
+                            <input type="text" class="form-control @error('email')alert alert-danger @enderror" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" required value="{{old('email')}}">
                             @error('email')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror

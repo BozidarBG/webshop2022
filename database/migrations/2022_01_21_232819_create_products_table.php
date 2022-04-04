@@ -21,8 +21,8 @@ class CreateProductsTable extends Migration
             $table->string('acc_code'); //code for accountant
             $table->string('short_desc');
             $table->text('description');
-            $table->unsignedInteger('regular_price');
-            $table->unsignedInteger('action_price');
+            $table->unsignedInteger('regular_price')->default(0);
+            $table->unsignedInteger('action_price')->default(0);
             $table->integer('stock')->default(0);
             $table->string('image')->nullable();
             $table->boolean('published')->default(false);

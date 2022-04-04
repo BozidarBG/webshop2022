@@ -7,9 +7,11 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Image;
+
 
 class AdminProductController extends Controller
 {
@@ -95,9 +97,22 @@ class AdminProductController extends Controller
         $product->acc_code=$request->acc_code;
         $product->short_desc=$request->short_description;
         $product->description=$request->description;
-        $product->regular_price=$request->regular_price*100;
-        $product->action_price=$request->action_price*100;
-        $product->stock=$request->stock;
+        if(auth()->user()->isProductManager()){
+            $product->regular_price=$request->regular_price*100;
+            $product->action_price=$request->action_price*100;
+            $product->stock=$request->stock;
+            if($request->has('published') && $request->regular_price==0){
+                return redirect()->back()->withErrors('Product must have price before it is published');
+            }
+            if($request->has('published')){
+                $product->published=1;
+            }
+        }else{
+            $product->regular_price=0;
+            $product->action_price=0;
+            $product->stock=0;
+
+        }
 
         if($request->has('image')){
             $image = $request->file('image');
@@ -126,6 +141,8 @@ class AdminProductController extends Controller
 
 
         $product->save();
+        Log::channel('product_create')->info("User id:".auth()->id()." name: ".auth()->user()->name." has created product id ".$product->id.", regular price: ".formatPrice($product->regular_price).", action price: ".formatPrice($product->action_price).", stock: ".$product->stock);
+
         session()->flash('success', "Product $product->name created successfully!");
         return redirect()->route('admin.products.create');
 
@@ -133,7 +150,7 @@ class AdminProductController extends Controller
     }
 
     public function update(ProductRequest $request, Product $product){
-
+        //dd($request->all());
         if($product->name != $request->name){
             $name_count=Product::where('name', $request->name)->count();
 
@@ -152,9 +169,22 @@ class AdminProductController extends Controller
         $product->acc_code=$request->acc_code;
         $product->short_desc=$request->short_description;
         $product->description=$request->description;
-        $product->regular_price=$request->regular_price*100;
-        $product->action_price=$request->action_price*100;
-        $product->stock=$request->stock;
+        if(auth()->user()->isProductManager()){
+            $product->regular_price=$request->regular_price*100;
+            $product->action_price=$request->action_price*100;
+            $product->stock=$request->stock;
+            if($request->has('published') && $request->regular_price==0){
+                $validator = Validator::make([], []);
+                $validator->errors()->add('regular_price','Product must have price before it is published');
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            else if($request->has('published')){
+                $product->published=1;
+            }
+            else{
+                $product->published=0;
+            }
+        }
 
         if($request->has('image')){
 
@@ -179,6 +209,8 @@ class AdminProductController extends Controller
 
 
         $product->save();
+        Log::channel('product_update')->info("User id:".auth()->id()." name: ".auth()->user()->name." has updated product id ".$product->id.", regular price: ".formatPrice($product->regular_price).", action price: ".formatPrice($product->action_price).", stock: ".$product->stock);
+
         session()->flash('success', "Product $product->name updated successfully!");
         return redirect()->route('admin.products.update', [$product]);
     }

@@ -123,6 +123,16 @@ return [
             'path' => storage_path('logs/orders_update.log'),
             'level' => 'info',
         ],
+        'product_update' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/product_update.log'),
+            'level' => 'info',
+        ],
+        'product_create' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/product_create.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];
