@@ -75,7 +75,7 @@
                                 <ul class="card-product__imgOverlay" data-id="{{$product->id}}" data-name="{{$product->name}}" data-slug="{{$product->slug}}" data-acc_code="{{$product->acc_code}}"
                                     data-stock="{{$product->stock}}" data-regular_price="{{$product->regular_price}}" data-action_price="{{$product->action_price}}" data-image="{{$product->image}}">
                                     <li><button><i class="add_to_cart ti-shopping-cart"></i></button></li>
-                                    <li><button><i class="ti-heart"></i></button></li>
+                                    <li><button><i class="ti-heart add_to_favourites"></i></button></li>
                                 </ul>
                             </div>
                             <div class="card-body">
@@ -128,7 +128,7 @@
                             <ul class="card-product__imgOverlay"  data-id="{{$product->id}}" data-name="{{$product->name}}" data-slug="{{$product->slug}}" data-acc_code="{{$product->acc_code}}"
                                 data-stock="{{$product->stock}}" data-regular_price="{{$product->regular_price}}" data-action_price="{{$product->action_price}}" data-image="{{$product->image}}">
                                 <li><button><i class="add_to_cart ti-shopping-cart"></i></button></li>
-                                <li><button><i class="ti-heart"></i></button></li>
+                                <li><button><i class="ti-heart add_to_favourites"></i></button></li>
                             </ul>
                         </div>
                         <div class="card-body">

@@ -94,14 +94,14 @@ class DashboardChart{
         axios.get('/admin/get-chart-data').then((data)=>{
             //console.log(data.data)
             this.backend_data=data.data;
-            this.getMonths(data.data);
+            this.fillClassProps();
             this.showTotalsChart();
             this.showOrdersChart();
         });
     }
 
-    getMonths(data){
-        let data_arr=Object.entries(data)[0][1];
+    fillClassProps(){
+        let data_arr=Object.entries(this.backend_data)[0][1];
         for(let i=0; i<data_arr.length; i++){
             this.months_arr.push(data_arr[i].month);
             this.totals_arr.push(data_arr[i].total/100000000);

@@ -3,7 +3,9 @@ class BaseCart{
         this.initiateBaseCartProps();
         this.getStorageContent();
         this.showCartQuantityInNav();
+        this.addToFavourites();
         //console.log(this)
+        //this.clearStorage()
     }
 
     initiateBaseCartProps(){
@@ -17,11 +19,15 @@ class BaseCart{
         this.shipping_fee=0;
         this.coupon={};
         this.coupon_is_applied=false;
+        this.favourites_items=[];
+        this.fav_qty=0;
     }
 
     showCartQuantityInNav(){
         this.getStorageContent();
-        document.getElementsByClassName('nav-shop__custom-circle')[0].textContent=this.cart_qty;
+        document.getElementsByClassName('nav-shop__blue-circle')[0].textContent=this.cart_qty;
+        document.getElementsByClassName('nav-shop__red-circle')[0].textContent=this.fav_qty;
+
     }
 
     showModalMessage(message, css_class, duration=3000){
@@ -54,6 +60,8 @@ class BaseCart{
             this.total=content.total;
             this.cart_qty=content.cart_qty;
             this.minimum_for_shipping=content.minimum_for_shipping;
+            this.favourites_items=content.favourites_items;
+            this.fav_qty=content.fav_qty;
         }
 
     }
@@ -69,11 +77,15 @@ class BaseCart{
         content.minimum_for_shipping=this.minimum_for_shipping;
         content.total=this.total;
         content.cart_qty=this.cart_qty;
+        content.fav_qty=this.fav_qty;
+        content.favourites_items=this.favourites_items;
         //console.log(content)
         localStorage.setItem(this.storage, JSON.stringify(content));
     }
 
-    collectData(tag, qty=1) {
+    //collect_to = cart_items || favourites_items
+    collectData(tag, qty=1, collect_to="cart_items") {
+        console.log(tag)
         let product={};
         product.id = tag.getAttribute('data-id');
         product.name = tag.getAttribute('data-name');
@@ -88,20 +100,33 @@ class BaseCart{
         product.subtotal=product.qty*product.selling_price;
         //if this product is already in cart, show message that product is already in cart
         let product_is_in_cart=false;
-        //console.log(this.cart_items)
-        if(this.cart_items.length){
-            this.cart_items.forEach((cart_item)=>{
-                if(product.id==cart_item.id){
-                    this.showModalMessage('This item is already in the cart', 'bg-danger');
+        //console.log(this.cart_items) //collect_to je bio cart_item
+        let collect_type=collect_to==='cart_items' ? 'cart' : 'favourites';
+        console.log(collect_to)
+        console.log(this[collect_to])
+        if(this[collect_to].length){
+            this[collect_to].forEach((item)=>{
+                if(parseInt(product.id)===parseInt(item.id)){
+                    this.showModalMessage("This item is already in the "+collect_type, 'bg-danger');
                     product_is_in_cart=true;
                 }
             });
         }
-        if(!product_is_in_cart){
+        if(!product_is_in_cart && collect_to==="cart_items"){
+            console.log(collect_to)
             this.cart_items.push(product);
             this.cart_qty +=product.qty;
             this.setStorageContent();
-            this.showModalMessage('Item added to the cart', 'bg-success');
+            this.showModalMessage('Item added to the '+collect_type, 'bg-success');
+            this.showCartQuantityInNav();
+        }
+        if(!product_is_in_cart && collect_to==="favourites_items"){
+            console.log(collect_to)
+
+            this.favourites_items.push(product);
+            this.fav_qty +=1;
+            this.setStorageContent();
+            this.showModalMessage('Item added to the '+collect_type, 'bg-success');
             this.showCartQuantityInNav();
         }
 
@@ -111,9 +136,14 @@ class BaseCart{
     calculateTotalsAndCartQty(){
         this.subtotal=0;
         this.cart_qty=0;
+        this.fav_qty=0;
         this.cart_items.forEach((item, index)=>{
             this.subtotal +=item.subtotal;
             this.cart_qty +=item.qty;
+        });
+
+        this.favourites_items.forEach((item, index)=>{
+            this.fav_qty +=item.qty;
         });
 
         this.subtotal_with_coupon=0;
@@ -190,6 +220,27 @@ class BaseCart{
         }
 
     }
+
+    addToFavourites(){
+        let fav_btns=document.getElementsByClassName('add_to_favourites');
+        if(fav_btns){
+            for(let i=0; i<fav_btns.length; i++){
+                fav_btns[i].addEventListener('click', (e)=>{
+                    e.preventDefault();
+                    console.log(e.target.parentElement)
+
+                    if(e.target.hasAttribute('data-id')){
+                        this.collectData(e.target, 1, 'favourites_items');
+                    }else if(e.target.parentElement.hasAttribute('data-id')){
+                        this.collectData(e.target.parentElement, 1, 'favourites_items');
+                    }else{
+                        this.collectData(e.target.closest('ul'), 1, 'favourites_items');
+                    }
+
+                });
+            }
+        }
+    }
 }
 
 
@@ -202,7 +253,7 @@ class AddToCartFromCategoryPage extends BaseCart{
         let add_to_carts=document.getElementsByClassName('add_to_cart');
         for(let i=0; i<add_to_carts.length; i++){
             add_to_carts[i].addEventListener('click', (e)=>{
-                this.collectData(e.target.closest('ul'));
+                this.collectData(e.target.closest('ul'), 1, 'cart_items');
                 this.showCartQuantityInNav();
             })
         }
@@ -240,7 +291,7 @@ class AddToCartFromShowProductPage extends BaseCart{
         });
 
         add_to_cart.addEventListener('click', (e)=>{
-            this.collectData(e.target, this.qty.value);
+            this.collectData(e.target, this.qty.value, 'cart_items');
             this.showCartQuantityInNav();
         });
 
@@ -887,11 +938,135 @@ class Checkout extends BaseCart{
 
 }
 
+class Favourites extends BaseCart{
+    constructor() {
+        super();
+        this.renderPage();
+        this.giveListeners();
+    }
+
+    renderPage(){
+        this.getStorageContent();
+        if(this.favourites_items.length){
+            //since we have items, we show them and hide "no items in cart" message
+            document.getElementById('no_items').classList.add('d-none');
+            document.getElementsByClassName('table')[0].classList.remove('d-none');
+
+            let favourites_items_table = document.getElementById('favourites_items');
+            let rows = this.favourites_items.map((item) => {
+                return `
+                <tr class="cart_item" data-id="${item.id}" data-name="${item.name}" data-slug="${item.slug}"
+                data-acc_code="${item.acc_code}" data-stock="${item.stock}" data-regular_price="${item.regular_price}"
+                data-action_price="${item.action_price}" data-image="${item.image}">
+                    <td>
+                        <button class="btn btn-outline-danger remove">X</button>
+                    </td>
+                    <td>
+                        <div class="media ">
+                            <div class="d-flex d-phone-none">
+                                <img width="80px" src="/${item.image}" alt="product_image">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="media ">
+                            <div class="media-body">
+                            <p class="text-danger cart_error d-none"></p>
+                                <a href="/show-product/${item.slug}">${item.name}</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <h5 class="price">${this.formatPrice(item.selling_price)}</h5>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-blue add_to_cart_from_favourites"><i class="ti-shopping-cart"></i></button>
+                    </td>
+                </tr>
+            `;
+            });
+            favourites_items_table.innerHTML = rows.join('');
+        }
+
+    }
+
+    giveListeners(){
+        let add_to_carts=document.getElementsByClassName('add_to_cart_from_favourites');
+        let removes=document.getElementsByClassName('remove');
+
+        for(let i=0; i<add_to_carts.length; i++){
+            add_to_carts[i].addEventListener('click', (e)=>{
+                this.moveToCart(e);
+            })
+        }
+
+        for(let i=0; i<removes.length; i++){
+            removes[i].addEventListener('click', (e)=>{
+                this.removeFromFavouritesHtml(e, 'Item removed from the favourites');
+            })
+        }
+
+    }
+
+
+    moveToCart(e){
+        //check if this item is already in the cart. if it is, then just show msg, if not, add to cart
+        let product_id=e.target.closest('tr').getAttribute('data-id');
+            let product_is_in_cart=this.cart_items.find((item)=>{
+                return parseInt(product_id)===parseInt(item.id);
+            });
+
+            if(product_is_in_cart){
+                this.showModalMessage("This item is already in the cart. You can delete it from favourites cart.", 'bg-danger', 7000);
+            }else{
+                this.collectData(e.target.closest('tr'), 1, 'cart_items');
+                this.removeFromFavouritesHtml(e, 'Item removed from the favourites and added to cart');
+            }
+
+    }
+
+    removeFromFavouritesHtml(e, msg){
+        let tr=e.target.closest('tr');
+        this.showModalMessage(msg, 'bg-success');
+        tr.classList.add('bg-danger');
+        setTimeout(()=>{
+            tr.remove();
+        },800);
+
+        let id=tr.getAttribute('data-id');
+        this.removeItemFromFavouriteState(id);
+        this.setStorageContent();
+        this.showCartQuantityInNav();
+
+        if(!this.fav_qty){
+            document.getElementById('no_items').classList.remove('d-none');
+            document.getElementsByClassName('table')[0].classList.add('d-none');
+        }
+    }
+
+    removeItemFromFavouriteState(id){
+        this.favourites_items.forEach((item, index)=>{
+            if(parseInt(id)===parseInt(item.id)){
+                this.favourites_items.splice(index, 1);
+                this.fav_qty -=1;
+            }
+        });
+    }
+}
+
 class ThankYou extends BaseCart{
     constructor(props) {
         super(props);
-        this.clearStorage();
-        this.initiateBaseCartProps();
+        this.cart_items=[];
+        this.cart_qty=0;
+        this.subtotal=0;
+        this.subtotal_with_coupon=0;
+        this.total=0;
+        this.minimum_for_shipping=500000;
+        this.shipping_fee=0;
+        this.coupon={};
+        this.coupon_is_applied=false;
+        this.setStorageContent();
         this.showCartQuantityInNav();
     }
 

@@ -26,8 +26,18 @@
                     </ul>
 
                     <ul class="nav-shop">
-                        <li class="nav-item"><a href="#"><i class="ti-search"></i></a></li>
-                        <li class="nav-item "><a href="{{route('cart')}}"><i class="ti-shopping-cart"></i></a> <span class="nav-shop__custom-circle"></span></li>
+                        <li class="nav-item">
+                            <a href="{{route('favourites')}}">
+                                <i class="ti-heart"></i>
+                            </a>
+                            <span class="nav-shop__red-circle"></span>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="{{route('cart')}}">
+                                <i class="ti-shopping-cart"></i>
+                            </a>
+                            <span class="nav-shop__blue-circle"></span>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
                         @guest

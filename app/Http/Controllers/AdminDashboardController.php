@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Order;
-use App\Models\Contact;
 use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller
@@ -31,9 +29,6 @@ class AdminDashboardController extends Controller
                 'order_total_last_month'=>$this->returnTotal($orders_from_last_month),
                 ]);
         }
-
-
-
 
     public function getChartData(){
             $orders_from_last_year=DB::table('orders')->select(

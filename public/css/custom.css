@@ -1,9 +1,21 @@
-.nav-shop__custom-circle{
+.nav-shop__blue-circle{
     position: relative;
     top:-10px;
     left:-2px;
     /*color: #0c84ff !important;*/
     background: #0c84ff;
+    border-radius: 50%;
+    font-size: 0.8rem !important;
+    color: #ffffff !important;
+    padding: 2px 5px;
+}
+
+.nav-shop__red-circle{
+    position: relative;
+    top:-10px;
+    left:-2px;
+    /*color: #0c84ff !important;*/
+    background: #ff0c20;
     border-radius: 50%;
     font-size: 0.8rem !important;
     color: #ffffff !important;

@@ -58,6 +58,9 @@ class PagesController extends Controller
         return view('all_users.cart');
     }
 
+    public function favourites(){
+        return view('all_users.favourites');
+    }
     public function contactUs(){
         return view('all_users.contact_us', ['title'=>'Contact Us']);
     }

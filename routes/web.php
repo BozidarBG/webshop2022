@@ -17,15 +17,6 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 
 
-
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
 require __DIR__.'/auth.php';
 
 Route::get('/', [PagesController::class, 'home'])->name('home');
@@ -36,6 +27,7 @@ Route::get('/contact-us', [PagesController::class, 'contactUs'])->name('contact.
 Route::post('/store-contact-us', [PagesController::class, 'storeContactUs'])->name('store.contact.us');
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::get('/cart', [PagesController::class, 'cart'])->name('cart');
+Route::get('/favourites', [PagesController::class, 'favourites'])->name('favourites');
 
 Route::post('check-cart-items-and-coupon', [CartController::class, 'checkCartItemsAndCoupon'])->name('check.cart.items.and.coupon');
 

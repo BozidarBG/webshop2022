@@ -44,14 +44,22 @@
 								<button class="btn-outline-blue mr-1" type="button" id="btn_minus"><i class="fas fa-minus"></i></button>
 								<input id="qty" type="number" name="qty" value="1" class="quantity mr-1" min="1" max="{{$product->stock}}">
 								<button class="btn-outline-blue mr-3" type="button" id="btn_plus"><i class="fas fa-plus"></i></button>
-								<a class="button primary-btn" href="javascript:void(0)" id="add_to_cart" data-id="{{$product->id}}" data-name="{{$product->name}}" data-slug="{{$product->slug}}" data-acc_code="{{$product->acc_code}}"
-                                   data-stock="{{$product->stock}}" data-regular_price="{{$product->regular_price}}"  data-action_price="{{$product->action_price}}" data-image="{{$product->image}}">Add to Cart</a>
+								<a class="button primary-btn" href="javascript:void(0)" id="add_to_cart"
+                                   data-id="{{$product->id}}" data-name="{{$product->name}}"
+                                   data-slug="{{$product->slug}}" data-acc_code="{{$product->acc_code}}"
+                                   data-stock="{{$product->stock}}" data-regular_price="{{$product->regular_price}}"
+                                   data-action_price="{{$product->action_price}}" data-image="{{$product->image}}"
+                                >Add to Cart</a>
 							</div>
 
 						</div>
 						<div class="card_area d-flex align-items-center">
-							<a class="icon_btn" href="#"><i class="far fa-gem"></i></a>
-							<a class="icon_btn" href="#"><i class="far fa-heart"></i></a>
+							<a class="icon_btn add_to_favourites" href="javascript:void(0)"
+                               data-id="{{$product->id}}" data-name="{{$product->name}}"
+                               data-slug="{{$product->slug}}" data-acc_code="{{$product->acc_code}}"
+                               data-stock="{{$product->stock}}" data-regular_price="{{$product->regular_price}}"
+                               data-action_price="{{$product->action_price}}" data-image="{{$product->image}}"
+                            ><i class="far fa-heart "></i></a>
 						</div>
 					</div>
 				</div>
@@ -82,51 +90,6 @@
 
 @section('scripts')
 <script>
-	{{--let qty_error=document.getElementById('qty_error');--}}
-
-	{{--let qty=document.getElementById('qty');--}}
-	{{--let max_qty={{$product->stock}};--}}
-
-	{{--const hideQtyError=()=>{--}}
-	{{--	qty_error.classList.add('d-none');--}}
-	{{--}--}}
-	{{--const showQtyError=()=>{--}}
-	{{--	qty_error.classList.remove('d-none');--}}
-	{{--}--}}
-
-	{{--const decreaseQty=()=>{--}}
-	{{--	hideQtyError();--}}
-	{{--	if(qty.value>0){--}}
-	{{--		qty.value = parseInt(qty.value)-1;--}}
-	{{--	}--}}
-
-	{{--}--}}
-
-	{{--const increaseQty=()=>{--}}
-	{{--	hideQtyError();--}}
-	{{--	if(qty.value<max_qty){--}}
-	{{--		qty.value = parseInt(qty.value)+1;--}}
-	{{--	}else{--}}
-	{{--		showQtyError();--}}
-	{{--	}--}}
-	{{--}--}}
-
-    {{--const addToCart=(e)=>{--}}
-    {{--    const id=e.target.getAttribute('data-id');--}}
-    {{--    let qty=document.getElementById('qty').value;--}}
-    {{--    let formData=new FormData();--}}
-    {{--    formData.append('id',id);--}}
-    {{--    formData.append('qty',qty);--}}
-    {{--    axios.post("{{route('add.to.cart')}}", formData).then((data)=>{--}}
-    {{--        console.log(data);--}}
-    {{--    });--}}
-    {{--}--}}
-
-
-	{{--new Listener('click', 'btn_minus', 'id', decreaseQty);--}}
-	{{--new Listener('click', 'btn_plus', 'id', increaseQty);--}}
-    {{--new Listener('click', 'add_to_cart', 'id', addToCart)--}}
-
     new AddToCartFromShowProductPage();
 
 </script>

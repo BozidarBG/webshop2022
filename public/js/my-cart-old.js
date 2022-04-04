@@ -189,14 +189,9 @@ class AddToCartFromShowProductPage extends LocalStorage{
 class Cart extends LocalStorage{
     constructor(){
         super();
-        // this.subtotal=0;
-        // this.subtotal_with_coupon=0;
-        // this.total=0;
-        // this.shipping_fee=0;
-        // this.coupon={};
-        // this.coupon_is_applied=false;
-        this.showCartContent();
-        this.giveListeners();
+
+            this.showCartContent();
+            this.giveListeners();
 
     }
 
