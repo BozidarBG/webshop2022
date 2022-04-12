@@ -41,13 +41,13 @@ Route::post('check-cart-items-and-coupon', [CartController::class, 'checkCartIte
 Route::get('/check-coupon/{code}', [CartController::class, 'checkCouponAndReturnValue'])->name('check.coupon');
 Route::post('/create-order', [CheckoutController::class, 'createOrder'])->name('create.order');
 Route::get('/thank-you', [CheckoutController::class, 'thankYou'])->name('thank_you');
+
+//AUTH USERS
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('user/profile', [ProfileController::class, 'profile'])->name('user.profile');
     Route::get('/dashboard', function () {
         return view('auth_users/profile');})->name('dashboard');
     Route::get('user/edit-profile', [ProfileController::class, 'editProfile'])->name('user.edit.profile');
-    Route::post('user/update-profile', [ProfileController::class, 'updateProfile'])->name('user.update.profile');
-    Route::post('user/delete-profile', [ProfileController::class, 'deleteProfile'])->name('user.delete.profile');
     Route::get('user/orders', [ProfileController::class, 'orders'])->name('user.orders');
     Route::get('user/orders/{id}', [ProfileController::class, 'ordersShow'])->name('user.orders.show');
     Route::get('public/pdfs/{filename}', [ProfileController::class, 'downloadFile'])->name('user.download.file');
@@ -64,7 +64,6 @@ Route::prefix('admin')->middleware(['any.admins'])->group(function(){
     Route::get('employees/edit/{user}', [AdminEmployeesController::class, 'edit'])->name('admin.employees.edit');
     Route::post('/employees', [AdminEmployeesController::class, 'store'])->name('admin.employees.store');
     Route::post('/employees/update/{user}', [AdminEmployeesController::class, 'update'])->name('admin.employees.update');
-    //Route::post('/employees/delete/{employee}', [AdminEmployeesController::class, 'destroy'])->name('admin.employees.destroy');
 
     //CATEGORIES
     Route::get('/categories', [AdminCategoryController::class, 'index'])->name('admin.categories');
@@ -101,6 +100,7 @@ Route::prefix('admin')->middleware(['any.admins'])->group(function(){
     Route::get('/edit-contact-us/{id}', [AdminContactUsController::class, 'edit'])->name('admin.contact.us.edit');
     Route::post('/update-contact-us/{id}', [AdminContactUsController::class, 'update'])->name('admin.contact.us.update');
 
+    //COUPONS
     Route::get('/coupons', [AdminCouponController::class, 'index'])->name('admin.coupons');
     Route::get('/coupons-create', [AdminCouponController::class, 'create'])->name('admin.create.coupons');
     Route::post('/coupons', [AdminCouponController::class, 'store'])->name('admin.coupons.store');
@@ -114,6 +114,6 @@ Route::prefix('admin')->middleware(['any.admins'])->group(function(){
     Route::post('/orders-update/{order}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
     Route::get('/get-chart-data', [AdminDashboardController::class, 'getChartData']);
 
-
+    //ALL LOGS (MASTER ADMIN ONLY)
     Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->middleware('master_administrator')->name('admin.logs');
 });

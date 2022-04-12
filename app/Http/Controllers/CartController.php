@@ -30,6 +30,7 @@ class CartController extends Controller
     protected $order_subtotal_with_coupon=0;
     protected $order_shipping_fee=0;
     protected $order_total=0;
+    protected $shipping_fee=100000;//should be from db or something
 
     public function checkCartItemsAndCoupon(Request $request){
         $this->validate($request, [
@@ -49,13 +50,6 @@ class CartController extends Controller
             return response()->json(['error'=>'This coupon is not valid']);
         }
     }
-
-//    protected function checkCoupon(){
-//        if($this->coupon){
-//            $coupon=$this->checkCouponsValidity($this->coupon->code);
-//            $this->coupon_has_error=$coupon ? false : 'Coupon is no longer valid';
-//        }
-//    }
 
 
     protected function checkCouponsValidity($coupon_code){
@@ -104,8 +98,6 @@ class CartController extends Controller
         if($this->request_errors){
             return response()->json(['errors'=>$this->request_errors, 'products_in_cart'=>$this->users_items_with_updated_values]);//order will be changed
         }else{
-            //session()->put('cart_items', $this->users_items_with_updated_values);
-            //$this->coupon ?? session()->put('coupon', $this->coupon);
             return response()->json(['success'=>'ok', 'location'=>'/checkout']);//order will stay as it is
         }
     }
@@ -183,7 +175,6 @@ class CartController extends Controller
             }
         });
         $this->users_items_with_updated_values=$cleaned_items;
-        //Log::info($this->users_items_with_updated_values);
     }
 
     protected function createErrorMsg($id, $type, $msg, $solution){
@@ -216,7 +207,7 @@ class CartController extends Controller
         }else if($this->order_subtotal >= $this->minimum_for_free_shipping){
             $this->order_shipping_fee=0;
         }else{
-            $this->order_shipping_fee=100000;
+            $this->order_shipping_fee=$this->shipping_fee;
         }
 
     }

@@ -73,8 +73,16 @@ class AdminOrderController extends Controller
             $log_msg=" comment: ".$request->admin_comment.".";
             session()->flash('success', 'Admin comment for this order is updated successfully.');
         }
+        if($request->has('contacted_by')){
+            if(auth()->user()->isOrdersAdministrator()){
+                $this->validate($request, ['contacted_by'=>Rule::in(['on', 'off'])]);
+                $order->update(['contacted_by'=>$request->contacted_by=="on" ? auth()->id() : null]);
+                $log_msg=$request->contacted_by =="on"? " user has being contacted." : " user has not being contacted.";
+                $msg_appendix=$request->contacted_by=='on' ? 'contacted' : 'not contacted';
+                session()->flash('success', 'User is contacted status changed to '.$msg_appendix);
+            }
+        }
 
-        //$order->save();
         Log::channel('orders_update')->info("User id: ".auth()->id()." ".auth()->user()->name." has updated order no. ".$order->id.":".$log_msg);
         return redirect()->route('admin.orders.edit', $order);
     }

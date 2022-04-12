@@ -126,9 +126,6 @@ class AdminProductController extends Controller
 
             // Image resize to given aspect dimensions
             // Save this thumbnail image to /public/thumbnails folder
-//            $img->resize(540, 580, function ($const) {
-//                $const->aspectRatio();
-//            })->save($thumbnailFilePath . '/' . $request->image);
             $img->crop(540, 580);
             $img->save($thumbnailFilePath . '/' . $request->image);
             $product->image=$request->image;

@@ -26,7 +26,7 @@
 @include('partials.user_nav')
 @include('partials.toaster_msg')
 @yield('content')
-@include('partials.subscribe')
+{{--@include('partials.subscribe')--}}
 @include('partials.user_footer')
 
 <script src="{{asset('vendors/jquery/jquery-3.2.1.min.js')}}"></script>

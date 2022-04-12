@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Contact;
 use DB;
+use Illuminate\Support\Arr;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PagesController extends Controller
 {
@@ -21,22 +23,72 @@ class PagesController extends Controller
             [
                 'products'=>$products->take(8),
                 'best_sellers'=>$products->take(-8)
-            //'products'=>Product::with('category')->where('stock', '>', 0)->where('published', 1)->inRandomOrder()->limit(8)->get(),
-            //'best_sellers'=>Product::with('category')->where('stock', '>', 0)->where('published', 1)->inRandomOrder()->limit(8)->get()
                 ]);
     }
-    public function productsByCategory($slug){
-
+    public function productsByCategory(Request $request, $slug){
+        //dd($request);
         $categories=Cache::rememberForever('categories.all', function () {
             return Category::all();
         });
+
+        $per_page=12;
+        $order_by="name";
+        $order_direction="asc";
+        $props_to_return=[];
+
         $category=$categories->where('slug', $slug)->first();
-        //dd($category->id);
-        $products=Product::with('category')->where('category_id', $category->id)->where('stock', '>', 0)->where('published', true)->orderBy('created_at', 'asc')->paginate(12);
-        //dd($products);
-        return view('all_users.products_by_category', [
-            'products'=>$products
+        $props_to_return[] = ['category' => $category];
+
+
+        if($request->has('order-by') && in_array($request->input('order-by'), ['name-a-to-z', 'name-z-to-a', 'price-low-to-high', 'price-high-to-low'])){
+            switch ($request->input('order-by')){
+                case 'name-a-to-z':
+                    $order_by="name";
+                    $order_direction="asc";
+                    break;
+                case 'name-z-to-a':
+                    $order_by="name";
+                    $order_direction="desc";
+                    break;
+                case 'price-low-to-high':
+                    $order_by="regular_price";
+                    $order_direction="asc";
+                    break;
+                case 'price-high-to-low':
+                    $order_by="regular_price";
+                    $order_direction="desc";
+                    break;
+            }
+            $props_to_return[]=['order_by'=>$request->input('order-by')];
+        }
+
+        if($request->has('per-page') && in_array($request->input('per-page'), ['12', '24', '36', '48'])){
+            $per_page=$request->input('per-page');
+            $props_to_return[]=['per_page'=>$request->input('per-page')];
+        }
+
+        $products=Product::with('category')->where('category_id', $category->id)
+            ->where('stock', '>', 0)
+            ->where('published', true)
+            ->orderBy($order_by, $order_direction)
+            //->paginate($per_page);
+            ->get();
+
+
+        //dd(Arr::collapse($props_to_return));
+        $page=LengthAwarePaginator::resolveCurrentPage();
+
+        $results=$products->slice(($page-1)*$per_page, $per_page)->values();
+
+        $paginated = new LengthAwarePaginator($results, $products->count(), $per_page, $page,[
+            'path'=>LengthAwarePaginator::resolveCurrentPath()
         ]);
+
+        $paginated->appends(request()->all());
+
+        $props_to_return[] = ['products' => $paginated];
+
+        return view('all_users.products_by_category', Arr::collapse($props_to_return));
     }
 
     public function showProduct($slug){

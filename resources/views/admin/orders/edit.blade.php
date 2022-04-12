@@ -28,6 +28,7 @@
                         <p>Email: <strong>{{$order->shipping->email}}</strong></p>
                         <p>Comment: <strong>{{$order->shipping->comment}}</strong></p>
                         <p>Created: <strong>{{formatDate($order->created_at)}}</strong></p>
+                        <p>Contacted by: <strong>{{$order->contactedBy->name ?? 'Not contacted'}}</strong></p>
                     </div>
                     <div class="col-md-6">
                         <p>Subtotal: <strong>{{formatPrice($order->subtotal)}}</strong></p>
@@ -88,6 +89,9 @@
                                 <option value="refunded" {{$order->payment_status=="refunded" ? 'selected' : null}}>Refunded</option>
                             </select>
                         </div>
+                        @error('payment_status')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         <input type="submit" value="Update" class="btn btn-outline-warning">
                     </form>
                 </div>
@@ -103,6 +107,9 @@
                         <div class="form-group">
                             <input type="date" class="form-control" name="paid_on">
                         </div>
+                        @error('paid_on')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         <input type="submit" value="Update" class="btn btn-outline-success">
                     </form>
                 </div>
@@ -120,6 +127,9 @@
                                 <option value="canceled" {{$order->shipping_status=="canceled" ? 'selected' : null}}>Canceled</option>
                             </select>
                         </div>
+                        @error('shipping_status')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         <input type="submit" value="Update" class="btn btn-outline-primary">
                     </form>
                 </div>
@@ -140,6 +150,9 @@
                                     <option value="returned_by_courier" {{$order->shipping_status=="returned_by_courier" ? 'selected' : null}}>Returned by courier</option>
                                 </select>
                             </div>
+                            @error('shipping_status')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             <input type="submit" value="Update" class="btn btn-outline-primary">
                         </form>
                     </div>
@@ -154,6 +167,9 @@
                             <div class="form-group">
                                 <input type="date" class="form-control" name="shipped_on">
                             </div>
+                            @error('shipped_on')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                             <input type="submit" value="Update" class="btn btn-outline-info">
                         </form>
                     </div>
@@ -172,8 +188,32 @@
                         <div class="form-group">
                             <textarea name="admin_comment" cols="30" rows="10" class="form-control"></textarea>
                         </div>
+                        @error('admin_comment')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         <button class="btn btn-dark" role="button">Update</button>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="card p-3 mt-3">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Has user been contacted if order is COD?</h3>
+                    @if(auth()->user()->isOrdersAdministrator())
+                        <form action="{{route('admin.orders.update', $order)}}" method="post">
+                        @csrf
+                        <div class="custom-control custom-checkbox checkbox-xl">
+                            <input type="checkbox" class="custom-control-input" id="checkbox_contacted" @if($order->contacted_by) checked="" @endif >
+                            <input type="hidden" name="contacted_by" value="{{$order->contacted_by ?  "on" : "off"}}" id="checkbox_value">
+                            <label class="custom-control-label"  id="checkbox_label" for="checkbox_contacted">@if($order->contacted_by) User has being contacted. Un-check if you clicked this by mistake @else User has not being contacted. Check if you have contacted user @endif</label>
+                            @error('contacted_by')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                            <button class="btn btn-success mt-4" role="button">Update</button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -181,10 +221,22 @@
 
 @endsection
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script>
+@if(auth()->user()->isOrdersAdministrator())
+    <script>
+        let checkbox_btn=document.getElementById('checkbox_contacted');
+        let checkbox_label=document.getElementById('checkbox_contacted');
+        let checkbox_value=document.getElementById('checkbox_value');
+        checkbox_btn.addEventListener('change', (e)=>{
+            if(e.target.checked){
+                checkbox_label.textContent="User has being contacted. Un-check if you clicked this by mistake";
+                checkbox_value.value="on";
 
-
-</script>
+            }else{
+                checkbox_label.textContent="User has not being contacted. Check if you have contacted user";
+                checkbox_value.value="off";
+            }
+        });
+    </script>
+@endif
 @endsection
 

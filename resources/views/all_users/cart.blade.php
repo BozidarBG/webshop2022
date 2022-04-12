@@ -9,6 +9,8 @@
 @endsection
 
 @section('content')
+    @include('partials.spinner')
+
     <section class="cart_area">
         <div class="container">
             <div class="cart_inner">
@@ -18,7 +20,7 @@
                         <thead>
                         <tr>
                             <th scope="col">Remove</th>
-                            <th scope="col">image</th>
+                            <th scope="col" class="d-none d-lg-block">image</th>
                             <th scope="col">Product</th>
                             <th scope="col">Price/RSD</th>
                             <th scope="col">Quantity</th>
@@ -32,7 +34,7 @@
                         <tr class="bottom_button">
                             <td>
                             </td>
-                            <td>
+                            <td class="d-none d-lg-block">
                             </td>
                             <td>
                             </td>
@@ -49,15 +51,15 @@
                         <tr>
                             <td>
                             </td>
-                            <td>
+                            <td class="d-none d-lg-block">
                             </td>
                             <td></td>
                             <td></td>
-                            <td>
-                                <h5>Subtotal RSD</h5>
-                                <h5 class="d-none have_coupon">Subtotal with Coupon RSD</h5>
-                                <h5>Shipping RSD</h5>
-                                <h4>Total For Payment RSD</h4>
+                            <td id="xs_media">
+                                <h5>Subtotal<span> RSD</span></h5>
+                                <h5 class="d-none have_coupon"><span>Subtotal </span>With Coupon<span> RSD</span></h5>
+                                <h5>Shipping<span> RSD</span></h5>
+                                <h4>Total<span> Payment RSD</span></h4>
                             </td>
                             <td>
                                 <h5 id="subtotal"></h5>
@@ -71,7 +73,7 @@
                             <td class="d-none-l">
 
                             </td>
-                            <td class="">
+                            <td class="d-none d-lg-block">
 
                             </td>
                             <td>

@@ -4,9 +4,8 @@
 
 @section('styles')
 <style>
-    .custom-is-invalid{
-        border: 1px solid red !important;
-    }
+
+
 </style>
 
 @endsection
@@ -14,16 +13,21 @@
 @section('content')
     @include('partials.hero')
     @include('partials.confirmation_modal')
+    @include('partials.spinner')
+
     <section class="checkout_area section-margin--small">
         <div class="container">
-@if(session()->has('errors'))
+
+    @if(session()->has('errors'))
     @include('partials.errors_in_div')
     <div class="invisible" id="backend_errors"></div>
     @endif
-    @if(session()->has('item_errors'))
+
+        @if(session()->has('item_errors'))
         @include('partials.errors_in_div')
         {{session()->get('item_errors')}}
     @endif
+
             <div class="billing_details">
                 <form action="{{route('create.order')}}" method="post" id="checkout_form">
                 @csrf

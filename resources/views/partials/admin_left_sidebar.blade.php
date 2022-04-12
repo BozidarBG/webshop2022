@@ -34,12 +34,7 @@
                         <p>All Customers</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('admin.employees.create')}}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Customers with orders</p>
-                    </a>
-                </li>
+
             </ul>
         </li>
 

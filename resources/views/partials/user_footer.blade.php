@@ -13,12 +13,13 @@
                     <div class="single-footer-widget tp_widgets">
                         <h4 class="footer_title">Quick Links</h4>
                         <ul class="list">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Shop</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Product</a></li>
-                            <li><a href="#">Brand</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="{{route('store.contact.us')}}">Contact Us</a></li>
+                            <li><a href="{{route('favourites')}}">Favourites</a></li>
+                            <li><a href="{{route('cart')}}">Products In Cart</a></li>
+                            @auth
+                            <li><a href="{{route('dashboard')}}">Profile</a></li>
+                            @endauth
                         </ul>
                     </div>
                 </div>

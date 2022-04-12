@@ -140,18 +140,18 @@
 
 
 </script>
-            @if(auth()->user()->isProductManager())
-                <script>
-                    let checkbox_btn=document.getElementById('checkbox_publish');
-                    let checkbox_label=document.getElementById('checkbox_label');
-                    checkbox_btn.addEventListener('change', (e)=>{
-                        if(e.target.checked){
-                            checkbox_label.textContent="Product is published. Check to un-publish it";
-                        }else{
-                            checkbox_label.textContent="Product is not published. Check to publish it.";
-                        }
-                    });
-                </script>
-    @endif
+@if(auth()->user()->isProductManager())
+    <script>
+        let checkbox_btn=document.getElementById('checkbox_publish');
+        let checkbox_label=document.getElementById('checkbox_label');
+        checkbox_btn.addEventListener('change', (e)=>{
+            if(e.target.checked){
+                checkbox_label.textContent="Product is published. Check to un-publish it";
+            }else{
+                checkbox_label.textContent="Product is not published. Check to publish it.";
+            }
+        });
+    </script>
+@endif
 @endsection
 

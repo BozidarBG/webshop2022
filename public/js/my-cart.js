@@ -241,6 +241,21 @@ class BaseCart{
             }
         }
     }
+
+    showSpinner(){
+        let spinner=document.getElementById('my_spinner');
+        if(spinner){
+            spinner.style.display="flex"
+        }
+    }
+    hideSpinner(){
+        let spinner=document.getElementById('my_spinner');
+        if(spinner){
+            spinner.style.display="none"
+        }
+    }
+
+
 }
 
 
@@ -342,7 +357,7 @@ class Cart extends BaseCart{
                     <td>
                         <button class="btn btn-outline-danger remove">X</button>
                     </td>
-                    <td>
+                    <td class="d-none d-lg-block">
                         <div class="media ">
                             <div class="d-flex d-phone-none">
                                 <img width="80px" src="/${item.image}" alt="product_image">
@@ -362,7 +377,7 @@ class Cart extends BaseCart{
                     </td>
                     <td class="qty_col">
                         <p class="qty_error text-danger d-none">You can't order more quantities</p>
-                        <div class="d-flex align-items-center  md-column ">
+                        <div class="d-flex sm_flex_column align-items-center  md-column ">
                             <button class="btn-outline-blue mr-1 btn_minus" type="button" ><i class="fas fa-minus"></i></button>
                             <input disabled type="number" name="qty" value="${item.qty}" class="quantity qty mr-1" min="1" max="">
                             <button class="btn-outline-blue mr-3 btn_plus" type="button"><i class="fas fa-plus"></i></button>
@@ -570,6 +585,7 @@ class Cart extends BaseCart{
         if(coupon_value.trim()){
             //check if coupon exists and is valid. also, retrieve value
             axios.get('/check-coupon/'+coupon_value).then((data)=>{
+
                 //console.log(data.data)
                 if(data.data.hasOwnProperty('error')){
                     this.showModalMessage(data.data.error, 'bg-danger');
@@ -594,10 +610,12 @@ class Cart extends BaseCart{
 
     //sends items from local storage to backend for check
     checkCartItemsAndCoupon(){
+        this.showSpinner();
         this.getStorageContent();
         this.removeFromCartItemsWithZeroQty();
         if(this.cart_qty ===0){
             this.showModalMessage('There are no items in your cart. Please, add some items.', 'bg-warning')
+            this.hideSpinner();
             return;
         }
 
@@ -607,6 +625,7 @@ class Cart extends BaseCart{
         formData.append('items',JSON.stringify(this.cart_items));
         formData.append('_token',document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
         axios.post(this.route, formData).then((data)=>{
+            this.hideSpinner();
             //console.log(data.data.products_in_cart)
             console.table(data.data)
             //we have some errors...
@@ -717,7 +736,7 @@ class Checkout extends BaseCart{
                         <a href="/show-product/${item.slug}">${item.name}
                             <span class="middle price ">${this.formatPrice(item.selling_price)}</span>
                             <span class="middle qty checkout_qty">x ${item.qty}</span>
-                            <span class="price last">${this.formatPrice(item.subtotal)}</span>
+                            <span class="price last d-none d-sm-block">${this.formatPrice(item.subtotal)}</span>
                         </a>
                     </li>`;
         });
@@ -817,6 +836,8 @@ class Checkout extends BaseCart{
         document.getElementById('confirm_modal_button').addEventListener('click', (e)=>{
             e.preventDefault();
             e.stopImmediatePropagation();
+            $('#confirmation_modal').modal('hide')
+            this.showSpinner();
             //this.form=document.getElementById('checkout_form');
             //collect data from form and put them in formData
             let formData=new FormData();
@@ -833,11 +854,11 @@ class Checkout extends BaseCart{
 
             formData.append('items', JSON.stringify(this.cart_items));
             formData.append('payment_type', payment_type);
-            $('#confirmation_modal').modal('hide')
             if(this.coupon_is_applied){
                 formData.append('coupon', JSON.stringify(this.coupon));
             }
             axios.post(this.route, formData).then((data)=>{
+                this.hideSpinner();
                 if(data.data.hasOwnProperty('errors')){
                     this.showModalMessage('There are some errors. Please, check carefully!', 'bg-danger', 6000);
 

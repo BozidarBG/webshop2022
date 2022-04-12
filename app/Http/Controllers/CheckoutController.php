@@ -28,7 +28,7 @@ class CheckoutController extends CartController
     protected $shipping;
     protected $order_items=[];
 
-//checkout page where user will confirm his order. while he is thinking, something can change so we check once again
+    //checkout page where user will confirm his order. while he is thinking, something can change so we check once again
     //everything that was checked before he came to this page
     public function checkout(){
         return view('all_users.checkout', ['title'=>'Checkout page']);
@@ -90,9 +90,7 @@ class CheckoutController extends CartController
             return response()->json($errors_arr);
         }
 
-
         //everything is ok with items, coupon and input fields, so we populate totals and create order if possible
-
         $this->calculateSubtotal();
         $this->calculateSubtotalWithCoupon();
         $this->calculateShippingFee();
@@ -133,6 +131,8 @@ class CheckoutController extends CartController
             }
 
         }
+        //insert other payment method in the future
+
         DB::commit();
 
         //create pdf order confirmation (filename already set)
@@ -217,6 +217,7 @@ class CheckoutController extends CartController
         $product->decrement('stock', $qty);
     }
 
+    //for stripe payment
     protected function makeMetaData(){
         $arr=[];
         foreach ($this->users_items_with_updated_values as $product){
@@ -229,6 +230,8 @@ class CheckoutController extends CartController
         }
         return json_encode($arr);
     }
+
+    //should be pay with stripe
     protected function payWithCard(Request $request){
         $order_id=Order::latest()->first()->id+1;
         $key=env('STRIPE_SECRET_KEY');

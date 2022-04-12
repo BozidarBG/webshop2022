@@ -14,32 +14,32 @@
 
         <div class="col-12">
           <!-- Start Filter Bar -->
-          <div class="filter-bar d-flex flex-wrap align-items-center">
-            <div class="sorting">
+            <form action="{{route('products.by.category', ['slug'=>$category->slug])}}" method="GET" class="mr-5">
 
-              <select style="">
-                <option value="1">Sort by price: low to high</option>
-                <option value="2">Sort by price: high to low</option>
-                <option value="3">Sort from A to Z</option>
-                <option value="4">Sort from Z to A</option>
-              </select>
-            </div>
-            <div class="sorting mr-auto">
-              <select style="">
-                <option value="1">Show 12</option>
-                <option value="2">Show 24</option>
-                <option value="3">Show 36</option>
-              </select>
-            </div>
-            <div>
-              <div class="input-group filter-bar-search">
-                <input type="text" placeholder="Search">
-                <div class="input-group-append">
-                  <button type="button"><i class="ti-search"></i></button>
+                <div class="filter-bar d-flex flex-wrap align-items-center">
+                    <div class="sorting">
+                        <select style="" name="order-by">
+                            <option value="name-a-to-z" {{isset($order_by) && $order_by=="name-a-to-z" ? "selected" : ""}}>Sort from A to Z</option>
+                            <option value="name-z-to-a" {{isset($order_by) && $order_by=="name-z-to-a" ? "selected" : ""}}>Sort from Z to A</option>
+                            <option value="price-low-to-high" {{isset($order_by) && $order_by=="price-low-to-high" ? "selected" : ""}}>Sort by price: low to high</option>
+                            <option value="price-high-to-low" {{isset($order_by) && $order_by=="price-high-to-low" ? "selected" : ""}}>Sort by price: high to low</option>
+                        </select>
+                    </div>
+
+                    <div class="sorting mr-auto">
+                        <select style="" name="per-page">
+                            <option value="12" {{isset($per_page) && $per_page=="12" ? "selected" : ""}}>Show 12</option>
+                            <option value="24" {{isset($per_page) && $per_page=="24" ? "selected" : ""}}>Show 24</option>
+                            <option value="36" {{isset($per_page) && $per_page=="36" ? "selected" : ""}}>Show 36</option>
+                            <option value="48" {{isset($per_page) && $per_page=="48" ? "selected" : ""}}>Show 48</option>
+                        </select>
+                    </div>
+                    <div class="sorting">
+                        <button class="btn btn-outline-primary">Show</button>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
+            </form>
+
           <!-- End Filter Bar -->
           <!-- Start Best Seller -->
           <section class="lattest-product-area pb-40 category-list">

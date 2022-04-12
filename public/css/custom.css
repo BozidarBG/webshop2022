@@ -2,7 +2,6 @@
     position: relative;
     top:-10px;
     left:-2px;
-    /*color: #0c84ff !important;*/
     background: #0c84ff;
     border-radius: 50%;
     font-size: 0.8rem !important;
@@ -14,28 +13,13 @@
     position: relative;
     top:-10px;
     left:-2px;
-    /*color: #0c84ff !important;*/
-    background: #ff0c20;
+    background: #70181e;
     border-radius: 50%;
     font-size: 0.8rem !important;
     color: #ffffff !important;
     padding: 2px 5px;
 }
 
-/*
-display: block;
-float: none;
-margin-right: 0px;
-border-bottom: 1px solid #ededed;
-margin-left: 0px;
-transition: all 0.4s linear;
-
-.nav-shop li:last-child {
-    margin-left: 40px;
-}
-
-
- */
 
 .quantity{
     height:38px;
@@ -128,5 +112,80 @@ transition: all 0.4s linear;
     padding-top: 23px;
     padding-left: 10px;
 }
+
+/*/ for spinner /*/
+.body_spinner{
+    position: relative;
+    overflow: hidden;
+}
+.spinner_loader {
+    border-top: 16px solid blue;
+    border-right: 16px solid green;
+    border-left: 16px solid gray;
+    border-bottom: 16px solid red;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin_spinner 2s linear infinite;
+}
+
+@keyframes spin_spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+.my_spinner_modal {
+    position: fixed;
+    z-index: 9999;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0, .5);
+
+}
+.my_spinner_inner {
+    z-index: 1000;
+    margin: 300px auto;
+    padding: 0px;
+    width: 130px;
+    filter: alpha(opacity=100);
+    opacity: 1;
+    -moz-opacity: 1;
+}
+/* end spinner css */
+
+@media (max-width: 771px){
+    .cart_item td{
+        /*//padding: 5px 0 !important;*/
+        padding:5px 5px 5px 0 !important;
+    }
+
+    .sm_flex_column{
+        flex-direction: column !important;
+        align-items: center;
+        justify-content: center;
+    }
+    .sm_flex_column .btn_minus, .sm_flex_column .quantity{
+        margin: 0 0 5px 0 !important;
+    }
+    .sm_flex_column .btn_plus{
+        margin: 0 0 0 0 !important;
+    }
+    .table th{
+        padding:5px 5px 5px 0 !important;
+
+    }
+    #xs_media span{
+        display: none;
+    }
+    .table{
+        margin-right: 0;
+    }
+}
+
+
 
 
