@@ -44,7 +44,6 @@ class FormSubmition{
         for (const [key, value] of Object.entries(this.input_values)) {
             form_data.append(key, value);
         }
-       // form_data.append('_token', document.getElementsByName('_token')[0].value);
 
         axios.defaults.headers = {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -61,8 +60,6 @@ class FormSubmition{
             //return data;
         }).catch(error => {
             console.log(error); // logs an object to the console
-
-            // Do something with error data
         });
     }
 
@@ -87,13 +84,10 @@ class FormSubmition{
             //(rule key is method name from this class i.e. minLength:2 = minLength, email:true= email(), etc
             //arg_value is value from rule key i.e 2 in minLength:2, true in email:true
             for(let [method_name, arg_value] of Object.entries(object_rules_for_input)){
-                //console.log(input_name, method_name, arg_value)
                 //do we have a method name in this class
                 if(typeof this[method_name] === "function"){
                     //we call this method and check if it will return error msg or ""
-                    //console.log(this.input_values[input_name], input_name, arg_value);
                     let error_message=this[method_name](this.input_values[input_name], input_name, arg_value);
-                    //console.log(error_message)
                     //check if there is an error message, if there is, populate this.errors
                     this.putErrorsInErrorsObject(error_message, input_name)
                 }else{
@@ -106,7 +100,6 @@ class FormSubmition{
 
     //check for errors and if any, put them in this.errorsObj
     putErrorsInErrorsObject(error_message, input_name){
-        //console.log(error_message, input_name)
         if(error_message.length){
             //if we don't have error for this rule so we need to add input_key to object
             if(!this.errorsObj.hasOwnProperty(input_name)){
@@ -123,7 +116,6 @@ class FormSubmition{
         let input_values={};
         for(let i=0; i<this.formHtml.length; i++){
             if(this.formHtml[i].classList.contains('fc')){
-                //console.log(this.formHtml[i])
                 //select tag is different from other tags
                 if((this.formHtml[i].tagName).toLowerCase() ==="select" && this.formHtml[i].hasAttribute('multiple')){
                     const selected = this.formHtml[i].querySelectorAll('option:checked');
@@ -131,17 +123,13 @@ class FormSubmition{
                     input_values[this.formHtml[i].name]=[values];
                  }
                 else if(this.formHtml[i].type==="file"){
-                    //this.formHtml[i].value; //daje C:\fakepath\bookmarks_10_13_19.html
-                    //console.log(this.formHtml[i].files[0])
                     if(this.formHtml[i].files[0] !==undefined){
-                        //console.log(this.rules[this.formHtml[i].name])
                         input_values[this.formHtml[i].name]=this.formHtml[i].files[0];
                     }
                 }
                 else if(this.formHtml[i].type==="checkbox" || this.formHtml[i].type==="radio"){
                     //console.log(this.formHtml[i].name) //vehicle
                     if(this.formHtml[i].checked){
-                        //console.log(this.formHtml[i].value, this.formHtml[i].name) //
                         //we are only interested if input is checked
                         //see if there is among input_values key with name. must value for that name must be array
                         let name_of_checkbox=this.formHtml[i].name;
@@ -196,9 +184,7 @@ class FormSubmition{
 
 
     putErrorsBellowEveryInput(errorsObject, arrayOfClasses, tagName="p"){
-        //console.log(errorsObject, arrayOfClasses, tagName)
         this.deleteErrorMessages();
-
         for(let [input_name, arrayOfErrors] of Object.entries(errorsObject)){
             let inputTag=document.querySelectorAll("[name="+input_name+"]")[0]
             let parentEl=inputTag.parentElement;
@@ -209,9 +195,7 @@ class FormSubmition{
     }
 
     putErrorsAboveEveryInput(errorsObject, arrayOfClasses, tagName="p"){
-        //console.log(errorsObject, arrayOfClasses, tagName)
         this.deleteErrorMessages();
-
         for(let [input_name, arrayOfErrors] of Object.entries(errorsObject)){
             let inputTag=document.querySelectorAll("[name="+input_name+"]")[0]
             let parentEl=inputTag.parentElement;
@@ -229,39 +213,7 @@ class FormSubmition{
         }
 
     }
-/*
-    //errorsObj is {username:['error msg1', 'error msg2'], name: ['error msg1']}
-    //adds <span class="text-danger>error msg1</span> after input field
-    showErrorMessages(){
 
-        if(this.formHtml && !this.isObjectEmpty(this.errorsObj)){
-            for (const errors_key in this.errorsObj) {
-                //u formi svi koji imaju name="big_text" npr (tj.samo prvi i jedini)
-                let input_tag=this.formHtml.querySelector("[name="+errors_key+"]");
-                this.errorsObj[errors_key].map((msg)=>{
-                    let error_message=this.createErrorMessageWithTag('p', ['fc-error','text-danger'], msg);
-
-                    //input_tag.insertAdjacentHTML('afterend', error_message);
-                    //input_tag.parentElement.appendChild(error_message)
-                    let parentEl=input_tag.parentElement;
-                    let input_tag_next=input_tag.nextElementSibling;
-                    parentEl.insertBefore(error_message, input_tag_next);
-                });
-            }
-        }
-
-    }
-
- */
-/*
-    showErrorMessagesFromBackend(messages_array){
-        let messages="";
-        for(let i=0; i<messages_array.length; i++){
-            messages += this.createErrorMessageWithTag('span', 'text-danger', messages_array[i])
-        }
-        this.backendErrorsHtml.innerHTML=messages
-    }
-*/
     createErrorMessageWithTag(tag,arrOfClasses, message){
         let tagElement=document.createElement(tag);
         tagElement.classList.add('fc-errors');
@@ -275,7 +227,6 @@ class FormSubmition{
 
 
     values(field_values, field_name, required_values){
-        //console.log(field_values, field_name, required_values)
         let wrong_field_values=[];
         if(Array.isArray(field_values) && Array.isArray(required_values)){
             for(let i=0; i<field_values.length; i++){
@@ -296,9 +247,7 @@ class FormSubmition{
     }
 
     required(field_value, field_name) {
-        //let error_msg=this.errorMessages['required'].replace('FIELD_NAME', field_name.charAt(0).toUpperCase() + field_name.slice(1));
         let error_msg=this.generateErrorMessage('required', field_name);
-
         //we must check if field is type file. no need to check other types so far
         let user_input_type=this.formHtml.querySelector("[name="+field_name+"]").type;
         if(user_input_type==="file"){
@@ -306,12 +255,11 @@ class FormSubmition{
                 return "";
             }
             else{
-                //input_values:fajl doesn't exist so it is an error
-
+                //input_values:file doesn't exist so it is an error
                 return error_msg;
             }
 
-            //nije type file
+            //not type file
         }else if(user_input_type==="checkbox" || user_input_type==="radio"){
             //they have multiple input fields with the same name so we need to see if min one is checked
             //to be required
@@ -349,7 +297,6 @@ class FormSubmition{
     }
 
     minLength(field_value, field_name, required_length){
-        //console.log(field_value)
         if(field_value.length < required_length){
             return this.generateErrorMessage('minLength', field_name, required_length);
         }
@@ -372,9 +319,8 @@ class FormSubmition{
     }
 
     type(field_value, field_name, required_types) {
-        //ako nema, field_value is undefined
+        //if not, field_value is undefined
         if(field_value!==undefined){
-            //console.log(field_value, field_name, required_types)
             if(this.input_values.hasOwnProperty(field_name)){
                 let extension=field_value.name.split('.').pop();
                 if(Array.isArray(required_types)){
@@ -463,7 +409,6 @@ class FormSubmition{
         const date_pattern=/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/;
         if(!date_pattern.test(field_value)){
             return this.generateErrorMessage('date', field_name);
-           //return msg.replace('FIELD_NAME', field_name.charAt(0).toUpperCase() + field_name.slice(1));
         }
         return "";
     }
